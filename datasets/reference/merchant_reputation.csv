@@ -1,0 +1,501 @@
+merchant_id,merchant_name,trust_score,verified,government_registered,reported_scam_count,risk_level,last_updated
+MER000001,Swiggy,0.88,True,True,0,Low,2026-04-24
+MER000002,Zomato,0.96,True,True,0,Low,2026-05-25
+MER000003,Dominos,0.75,False,False,0,Low,2026-06-20
+MER000004,McDonalds,0.8,True,True,0,Low,2026-04-23
+MER000005,Pizza Hut,0.86,False,False,0,Low,2026-05-19
+MER000006,Haldirams,0.48,True,True,2,Medium,2026-06-21
+MER000007,Barbeque Nation,0.28,False,False,19,High,2026-06-19
+MER000008,Mainland China,0.93,True,True,0,Low,2026-06-30
+MER000009,Saravana Bhavan,0.81,True,True,0,Low,2026-06-10
+MER000010,Paradise Biryani,0.65,True,True,4,Medium,2026-04-25
+MER000011,BigBasket,0.74,True,True,0,Low,2026-06-27
+MER000012,Blinkit,0.72,True,True,0,Low,2026-06-23
+MER000013,DMart,0.46,True,True,1,Medium,2026-05-04
+MER000014,Reliance Fresh,0.92,True,True,0,Low,2026-05-28
+MER000015,More Supermarket,0.97,True,True,0,Low,2026-06-13
+MER000016,Star Bazaar,0.87,True,True,0,Low,2026-05-30
+MER000017,Natures Basket,0.85,True,True,0,Low,2026-04-09
+MER000018,JioMart,0.6,True,True,2,Medium,2026-06-30
+MER000019,Zepto,0.78,True,True,0,Low,2026-06-06
+MER000020,Indian Oil,0.74,True,True,0,Low,2026-04-03
+MER000021,Bharat Petroleum,0.7,True,True,1,Medium,2026-04-12
+MER000022,Hindustan Petroleum,0.86,True,True,0,Low,2026-05-05
+MER000023,Shell India,0.98,True,True,0,Low,2026-04-04
+MER000024,Reliance Petroleum,0.88,True,True,0,Low,2026-06-08
+MER000025,Amazon India,0.93,True,True,0,Low,2026-06-15
+MER000026,Flipkart,0.77,True,True,0,Low,2026-05-27
+MER000027,Myntra,0.71,True,True,0,Low,2026-06-11
+MER000028,Meesho,0.73,True,True,0,Low,2026-05-02
+MER000029,Snapdeal,0.92,True,True,0,Low,2026-05-23
+MER000030,Tata CLiQ,0.76,True,True,0,Low,2026-04-21
+MER000031,Ajio,0.84,True,True,0,Low,2026-06-24
+MER000032,Nykaa,0.88,True,True,0,Low,2026-05-25
+MER000033,Zara India,0.95,True,True,0,Low,2026-06-03
+MER000034,H&M India,0.87,True,True,0,Low,2026-05-11
+MER000035,Westside,0.74,True,True,0,Low,2026-05-24
+MER000036,Pantaloons,0.74,True,True,0,Low,2026-05-31
+MER000037,Max Fashion,0.66,True,True,1,Medium,2026-04-16
+MER000038,FabIndia,0.81,True,True,0,Low,2026-06-29
+MER000039,Allen Solly,0.82,False,False,0,Low,2026-06-03
+MER000040,Van Heusen,0.85,True,True,0,Low,2026-06-09
+MER000041,Croma,0.96,False,False,0,Low,2026-06-04
+MER000042,Reliance Digital,0.91,True,True,0,Low,2026-05-15
+MER000043,Vijay Sales,0.87,False,False,0,Low,2026-06-16
+MER000044,Samsung Store,0.74,True,True,0,Low,2026-06-04
+MER000045,Apple India,0.91,True,True,0,Low,2026-04-27
+MER000046,Mi Store,1.0,True,True,0,Low,2026-06-21
+MER000047,Apollo Pharmacy,0.82,True,True,0,Low,2026-06-02
+MER000048,MedPlus,0.89,True,True,0,Low,2026-04-11
+MER000049,Practo,0.73,True,True,0,Low,2026-05-22
+MER000050,1mg,0.96,True,True,0,Low,2026-04-28
+MER000051,PharmEasy,0.86,True,True,0,Low,2026-06-12
+MER000052,Tata Health,0.93,False,False,0,Low,2026-04-13
+MER000053,Apollo Hospital,0.29,False,False,17,High,2026-06-03
+MER000054,Fortis Healthcare,0.92,True,True,0,Low,2026-05-26
+MER000055,Max Hospital,0.71,True,True,0,Low,2026-04-05
+MER000056,Manipal Hospital,0.89,True,True,0,Low,2026-04-27
+MER000057,Narayana Health,0.75,True,True,0,Low,2026-05-30
+MER000058,MedPlus Pharmacy,0.81,False,False,0,Low,2026-05-04
+MER000059,Netmeds,0.68,True,True,1,Medium,2026-05-28
+MER000060,1mg Pharmacy,0.9,True,True,0,Low,2026-05-30
+MER000061,MakeMyTrip,0.75,True,True,0,Low,2026-05-30
+MER000062,Goibibo,0.89,True,True,0,Low,2026-05-31
+MER000063,Yatra,0.94,True,True,0,Low,2026-06-20
+MER000064,Cleartrip,0.92,True,True,0,Low,2026-05-09
+MER000065,EaseMyTrip,1.0,True,True,0,Low,2026-06-18
+MER000066,ixigo,0.23,False,False,3,High,2026-06-29
+MER000067,OYO Rooms,0.48,True,True,1,Medium,2026-04-02
+MER000068,Taj Hotels,0.87,True,True,0,Low,2026-06-22
+MER000069,ITC Hotels,0.49,True,True,2,Medium,2026-06-23
+MER000070,Marriott India,0.95,True,True,0,Low,2026-05-03
+MER000071,Hyatt India,0.87,True,True,0,Low,2026-04-19
+MER000072,Lemon Tree,0.53,True,True,3,Medium,2026-04-22
+MER000073,IndiGo,0.8,True,True,0,Low,2026-04-09
+MER000074,Air India,0.7,True,True,0,Low,2026-06-25
+MER000075,SpiceJet,0.48,True,True,2,Medium,2026-04-11
+MER000076,Vistara,0.8,True,True,0,Low,2026-05-19
+MER000077,AirAsia India,0.3,False,False,6,High,2026-05-26
+MER000078,Akasa Air,0.8,True,True,0,Low,2026-04-26
+MER000079,LIC India,0.9,False,False,0,Low,2026-06-02
+MER000080,HDFC Life,0.56,True,True,3,Medium,2026-05-25
+MER000081,ICICI Prudential,0.77,True,True,0,Low,2026-05-02
+MER000082,SBI Life,0.76,True,True,0,Low,2026-06-19
+MER000083,Max Life Insurance,0.92,True,True,0,Low,2026-05-31
+MER000084,Star Health,0.73,False,False,0,Low,2026-05-03
+MER000085,SBI Mutual Fund,0.99,True,True,0,Low,2026-05-23
+MER000086,HDFC AMC,0.79,True,True,0,Low,2026-04-07
+MER000087,ICICI Prudential MF,0.68,True,True,4,Medium,2026-05-30
+MER000088,Axis Mutual Fund,0.88,True,True,0,Low,2026-04-10
+MER000089,Kotak AMC,0.91,False,False,0,Low,2026-05-11
+MER000090,Zerodha Coin,0.44,True,True,4,Medium,2026-04-13
+MER000091,Zerodha,0.77,True,True,0,Low,2026-04-29
+MER000092,Groww,0.48,True,True,2,Medium,2026-04-05
+MER000093,Upstox,0.82,True,True,0,Low,2026-05-13
+MER000094,Angel One,0.7,True,True,0,Low,2026-04-19
+MER000095,5paisa,0.89,True,True,0,Low,2026-05-08
+MER000096,ICICI Direct,0.92,True,True,0,Low,2026-06-07
+MER000097,BYJU'S,0.82,True,True,0,Low,2026-06-03
+MER000098,Unacademy,0.86,True,True,0,Low,2026-04-16
+MER000099,Coursera India,0.41,True,True,4,Medium,2026-05-21
+MER000100,Udemy,0.51,False,False,2,Medium,2026-04-21
+MER000101,Vedantu,0.72,True,True,0,Low,2026-05-15
+MER000102,Simplilearn,0.56,True,True,1,Medium,2026-04-27
+MER000103,Allen Career,0.84,True,True,0,Low,2026-04-09
+MER000104,FIITJEE,0.78,True,True,0,Low,2026-04-14
+MER000105,Aakash Institute,0.77,True,True,0,Low,2026-04-21
+MER000106,Physics Wallah,0.86,True,True,0,Low,2026-06-30
+MER000107,Netflix India,0.51,True,True,2,Medium,2026-04-10
+MER000108,Amazon Prime Video,0.78,True,True,0,Low,2026-05-15
+MER000109,Disney+ Hotstar,0.85,True,True,0,Low,2026-04-11
+MER000110,Sony LIV,0.13,False,False,7,High,2026-04-20
+MER000111,Spotify India,0.71,True,True,0,Low,2026-06-24
+MER000112,JioCinema,0.89,True,True,0,Low,2026-06-03
+MER000113,Steam India,0.98,True,True,0,Low,2026-06-01
+MER000114,PlayStation Store,0.39,False,False,12,High,2026-06-14
+MER000115,Google Play Games,0.47,True,True,3,Medium,2026-06-17
+MER000116,Xbox India,0.93,True,True,0,Low,2026-06-18
+MER000117,Tata Power,0.56,True,True,4,Medium,2026-05-10
+MER000118,BSES Rajdhani,0.74,False,False,0,Low,2026-05-08
+MER000119,Mahanagar Gas,0.73,True,True,0,Low,2026-05-20
+MER000120,Adani Gas,0.95,False,False,0,Low,2026-05-15
+MER000121,Jio Fiber,0.77,True,True,0,Low,2026-05-03
+MER000122,MSEDCL,0.8,True,True,0,Low,2026-05-27
+MER000123,Jio,0.8,True,True,0,Low,2026-05-02
+MER000124,Airtel,0.79,True,True,0,Low,2026-04-10
+MER000125,Vodafone Idea,0.87,True,True,0,Low,2026-05-17
+MER000126,BSNL,0.89,True,True,0,Low,2026-04-26
+MER000127,MagicBricks,0.25,False,False,16,High,2026-06-07
+MER000128,99acres,0.73,False,False,0,Low,2026-05-13
+MER000129,NoBroker,0.8,True,True,0,Low,2026-05-21
+MER000130,Housing.com,0.5,True,True,1,Medium,2026-04-21
+MER000131,Tanishq,0.97,True,True,0,Low,2026-04-15
+MER000132,Kalyan Jewellers,0.88,False,False,0,Low,2026-05-27
+MER000133,Malabar Gold,0.71,True,True,0,Low,2026-06-27
+MER000134,PC Jewellers,0.94,True,True,0,Low,2026-05-18
+MER000135,Senco Gold,0.93,True,True,0,Low,2026-05-27
+MER000136,Maruti Suzuki,0.91,False,False,0,Low,2026-04-13
+MER000137,Tata Motors,0.87,True,True,0,Low,2026-05-27
+MER000138,Hero MotoCorp,0.28,False,False,8,High,2026-04-16
+MER000139,TVS Motor,0.93,True,True,0,Low,2026-04-15
+MER000140,Hyundai India,0.73,True,True,0,Low,2026-05-03
+MER000141,IKEA India,0.97,True,True,0,Low,2026-04-25
+MER000142,Urban Ladder,0.81,True,True,0,Low,2026-05-23
+MER000143,Pepperfry,0.9,True,True,0,Low,2026-06-03
+MER000144,HomeTown,0.96,True,True,0,Low,2026-04-23
+MER000145,Cult.fit,0.9,False,False,0,Low,2026-05-13
+MER000146,Golds Gym India,0.9,True,True,0,Low,2026-04-25
+MER000147,Anytime Fitness,0.87,True,True,0,Low,2026-05-15
+MER000148,Lakme Salon,0.82,True,True,0,Low,2026-05-26
+MER000149,VLCC,0.99,True,True,0,Low,2026-05-01
+MER000150,Naturals Salon,0.93,True,True,0,Low,2026-05-31
+MER000151,Jawed Habib,0.44,False,False,1,Medium,2026-05-26
+MER000152,Reliance Smart,0.95,True,True,0,Low,2026-04-18
+MER000153,Spencer's,0.55,True,True,3,Medium,2026-04-25
+MER000154,Spar India,0.79,True,True,0,Low,2026-04-15
+MER000155,HyperCITY,0.96,True,True,0,Low,2026-04-08
+MER000156,Faasos,0.83,True,True,0,Low,2026-06-17
+MER000157,Box8,0.19,False,False,6,High,2026-04-11
+MER000158,Rebel Foods,0.79,True,True,0,Low,2026-04-19
+MER000159,EatSure,0.73,True,True,0,Low,2026-05-01
+MER000160,Licious,0.81,True,True,0,Low,2026-05-18
+MER000161,Uber India,0.82,True,True,0,Low,2026-04-02
+MER000162,Ola Cabs,0.44,False,False,1,Medium,2026-05-22
+MER000163,Rapido,0.74,True,True,0,Low,2026-05-19
+MER000164,BluSmart,0.97,True,True,0,Low,2026-06-01
+MER000165,Local Mutual Fund #165,0.59,True,True,0,Low,2026-05-08
+MER000166,Local Real Estate #166,0.76,True,True,0,Low,2026-05-28
+MER000167,Local Restaurant #167,0.95,False,True,0,Low,2026-04-15
+MER000168,Local Mutual Fund #168,0.49,False,False,5,Medium,2026-04-20
+MER000169,Local Electronics #169,0.65,True,True,0,Low,2026-06-21
+MER000170,Local Home Decor #170,0.58,True,False,0,Low,2026-05-03
+MER000171,Local Hospital #171,0.67,False,True,0,Low,2026-04-21
+MER000172,Local Insurance #172,0.59,False,False,9,Medium,2026-05-26
+MER000173,Local Electronics #173,0.83,True,True,0,Low,2026-06-29
+MER000174,Local Supermarket #174,0.66,True,True,0,Low,2026-05-01
+MER000175,Local Cab Service #175,0.51,True,True,0,Low,2026-04-10
+MER000176,Local E-commerce #176,0.75,False,True,0,Low,2026-05-19
+MER000177,Local Airlines #177,0.85,True,True,0,Low,2026-05-28
+MER000178,Local Pharmacy #178,0.67,True,True,0,Low,2026-05-19
+MER000179,Local E-commerce #179,0.85,False,False,0,Low,2026-05-05
+MER000180,Local Cab Service #180,0.59,False,False,0,Low,2026-04-06
+MER000181,Local Utility Provider #181,0.79,True,True,0,Low,2026-04-17
+MER000182,Local Mutual Fund #182,0.59,True,True,0,Low,2026-05-16
+MER000183,Local Fashion #183,0.99,False,False,0,Low,2026-06-27
+MER000184,Local Fashion #184,0.84,True,False,0,Low,2026-04-27
+MER000185,Local Fashion #185,0.66,False,True,0,Low,2026-04-04
+MER000186,Local Hospital #186,0.41,False,True,1,Medium,2026-05-04
+MER000187,Local Pharmacy #187,0.64,True,False,0,Low,2026-06-01
+MER000188,Local Cloud Kitchen #188,0.27,False,True,7,High,2026-05-02
+MER000189,Local Restaurant #189,0.54,False,True,0,Low,2026-06-04
+MER000190,Local Education Institute #190,0.5,False,True,4,Medium,2026-05-06
+MER000191,Local Healthcare #191,0.58,False,True,0,Low,2026-04-27
+MER000192,Local Streaming Service #192,0.69,True,True,0,Low,2026-06-04
+MER000193,Local Home Decor #193,0.53,True,True,0,Low,2026-06-27
+MER000194,Local Gaming #194,0.56,False,True,3,Medium,2026-04-07
+MER000195,Local Stock Broker #195,0.74,True,False,0,Low,2026-04-27
+MER000196,Local Healthcare #196,0.88,True,False,0,Low,2026-06-07
+MER000197,Local Airlines #197,0.91,True,True,0,Low,2026-04-29
+MER000198,Local Gaming #198,0.92,True,True,0,Low,2026-04-30
+MER000199,Local Streaming Service #199,0.69,True,True,0,Low,2026-06-30
+MER000200,Local Fuel Station #200,0.77,True,True,0,Low,2026-05-11
+MER000201,Local Restaurant #201,0.65,False,False,0,Low,2026-06-22
+MER000202,Local Gaming #202,0.82,True,True,0,Low,2026-05-20
+MER000203,Local Streaming Service #203,0.63,True,False,0,Low,2026-05-02
+MER000204,Local Mutual Fund #204,0.49,False,True,7,Medium,2026-06-11
+MER000205,Local Cloud Kitchen #205,0.8,True,True,0,Low,2026-04-20
+MER000206,Local Utility Provider #206,0.57,False,False,4,Medium,2026-04-27
+MER000207,Local Utility Provider #207,0.82,True,True,0,Low,2026-04-29
+MER000208,Local Restaurant #208,0.86,False,True,0,Low,2026-06-24
+MER000209,Local Fuel Station #209,0.55,True,False,0,Low,2026-05-15
+MER000210,Local Home Decor #210,0.66,True,True,0,Low,2026-04-14
+MER000211,Local Streaming Service #211,0.38,False,False,8,Medium,2026-04-14
+MER000212,Local Hospital #212,0.85,True,True,0,Low,2026-04-21
+MER000213,Local Healthcare #213,0.59,True,True,0,Low,2026-04-26
+MER000214,Local Coaching #214,0.83,True,True,0,Low,2026-04-24
+MER000215,Local Hotel #215,0.65,True,False,0,Low,2026-06-05
+MER000216,Local Jewellery #216,0.69,True,True,0,Low,2026-06-27
+MER000217,Local Home Decor #217,0.32,False,False,7,Medium,2026-04-20
+MER000218,Local E-commerce #218,0.8,False,False,0,Low,2026-04-03
+MER000219,Local Pharmacy #219,0.74,True,False,0,Low,2026-05-27
+MER000220,Local Salon & Spa #220,0.71,True,True,0,Low,2026-06-21
+MER000221,Local Coaching #221,0.64,False,True,0,Low,2026-05-19
+MER000222,Local Fashion #222,0.84,True,False,0,Low,2026-05-30
+MER000223,Local Streaming Service #223,0.19,False,True,7,High,2026-06-03
+MER000224,Local Utility Provider #224,0.82,True,True,0,Low,2026-05-18
+MER000225,Local Airlines #225,0.92,False,True,0,Low,2026-04-02
+MER000226,Local Hotel #226,0.96,False,True,0,Low,2026-04-09
+MER000227,Local Fuel Station #227,0.91,False,False,0,Low,2026-05-29
+MER000228,Local Electronics #228,0.83,False,True,0,Low,2026-04-25
+MER000229,Local Electronics #229,0.8,True,False,0,Low,2026-06-04
+MER000230,Local Education Institute #230,0.94,True,False,0,Low,2026-06-04
+MER000231,Local Coaching #231,0.9,False,True,0,Low,2026-04-18
+MER000232,Local Hospital #232,0.91,True,True,0,Low,2026-04-27
+MER000233,Local Fashion #233,0.54,False,False,6,Medium,2026-04-28
+MER000234,Local Electronics #234,0.74,True,True,0,Low,2026-06-13
+MER000235,Local Gym & Fitness #235,0.92,True,True,0,Low,2026-06-22
+MER000236,Local Cloud Kitchen #236,0.63,True,False,0,Low,2026-05-17
+MER000237,Local Jewellery #237,0.93,False,False,0,Low,2026-04-27
+MER000238,Local Salon & Spa #238,0.99,False,False,0,Low,2026-06-17
+MER000239,Local Fuel Station #239,0.85,True,True,0,Low,2026-04-03
+MER000240,Local Utility Provider #240,0.9,False,False,0,Low,2026-06-19
+MER000241,Local Grocery #241,0.36,False,False,4,Medium,2026-05-28
+MER000242,Local Cab Service #242,0.32,False,True,1,Medium,2026-04-08
+MER000243,Local Hospital #243,0.73,False,True,0,Low,2026-04-20
+MER000244,Local Healthcare #244,0.53,True,False,0,Low,2026-05-01
+MER000245,Local Fuel Station #245,0.77,True,False,0,Low,2026-06-13
+MER000246,Local Coaching #246,0.74,False,False,0,Low,2026-06-21
+MER000247,Local Gym & Fitness #247,0.35,False,False,7,Medium,2026-06-24
+MER000248,Local Restaurant #248,0.57,True,False,0,Low,2026-05-26
+MER000249,Local Salon & Spa #249,0.52,False,True,3,Medium,2026-04-22
+MER000250,Local Travel Agency #250,0.84,True,False,0,Low,2026-04-13
+MER000251,Local Electronics #251,0.99,True,False,0,Low,2026-04-29
+MER000252,Local Supermarket #252,0.49,False,False,5,Medium,2026-06-07
+MER000253,Local Utility Provider #253,0.35,False,True,7,Medium,2026-06-19
+MER000254,Local Stock Broker #254,0.99,False,True,0,Low,2026-04-17
+MER000255,Local Restaurant #255,0.93,True,True,0,Low,2026-04-09
+MER000256,Local Healthcare #256,0.98,True,False,0,Low,2026-06-25
+MER000257,Local Pharmacy #257,0.58,False,False,9,Medium,2026-04-16
+MER000258,Local E-commerce #258,0.78,False,False,0,Low,2026-06-06
+MER000259,Local Telecom #259,1.0,False,False,0,Low,2026-05-23
+MER000260,Local Restaurant #260,0.45,False,True,7,Medium,2026-05-08
+MER000261,Local Mutual Fund #261,0.51,True,True,0,Low,2026-05-06
+MER000262,Local Grocery #262,0.59,True,True,0,Low,2026-05-24
+MER000263,Local Jewellery #263,0.35,False,True,6,Medium,2026-05-03
+MER000264,Local Streaming Service #264,0.77,False,True,0,Low,2026-04-23
+MER000265,Local Telecom #265,0.79,True,False,0,Low,2026-05-21
+MER000266,Local Hospital #266,0.74,True,True,0,Low,2026-04-18
+MER000267,Local Mutual Fund #267,0.56,False,False,6,Medium,2026-05-22
+MER000268,Local Airlines #268,0.13,False,False,9,High,2026-06-25
+MER000269,Local Jewellery #269,0.7,True,True,0,Low,2026-06-30
+MER000270,Local Cab Service #270,0.69,True,False,0,Low,2026-05-31
+MER000271,Local Supermarket #271,0.52,False,False,7,Medium,2026-06-09
+MER000272,Local Telecom #272,0.77,False,True,0,Low,2026-04-11
+MER000273,Local Travel Agency #273,0.96,False,True,0,Low,2026-06-13
+MER000274,Local Stock Broker #274,0.59,True,True,0,Low,2026-05-04
+MER000275,Local Education Institute #275,0.56,True,False,0,Low,2026-05-02
+MER000276,Local Cloud Kitchen #276,0.86,False,False,0,Low,2026-06-01
+MER000277,Local Streaming Service #277,0.53,True,False,0,Low,2026-06-05
+MER000278,Local Utility Provider #278,0.71,False,True,0,Low,2026-05-09
+MER000279,Local Stock Broker #279,0.83,True,True,0,Low,2026-06-03
+MER000280,Local Salon & Spa #280,0.9,True,False,0,Low,2026-06-13
+MER000281,Local Real Estate #281,0.89,False,True,0,Low,2026-06-04
+MER000282,Local Hotel #282,0.72,True,True,0,Low,2026-04-05
+MER000283,Local Salon & Spa #283,0.68,True,True,0,Low,2026-04-19
+MER000284,Local Jewellery #284,0.52,True,False,0,Low,2026-04-20
+MER000285,Local Healthcare #285,0.52,False,False,6,Medium,2026-06-22
+MER000286,Local Airlines #286,0.93,True,False,0,Low,2026-05-31
+MER000287,Local Fashion #287,0.6,False,False,0,Low,2026-05-01
+MER000288,Local Real Estate #288,0.81,False,False,0,Low,2026-05-26
+MER000289,Local Insurance #289,0.65,True,True,0,Low,2026-06-09
+MER000290,Local Travel Agency #290,0.67,True,True,0,Low,2026-04-22
+MER000291,Local Real Estate #291,0.57,False,False,0,Low,2026-06-14
+MER000292,Local Cab Service #292,0.98,True,True,0,Low,2026-05-06
+MER000293,Local Hotel #293,0.99,True,True,0,Low,2026-05-10
+MER000294,Local Cab Service #294,0.52,False,False,5,Medium,2026-05-12
+MER000295,Local Jewellery #295,0.59,True,False,0,Low,2026-06-19
+MER000296,Local Mutual Fund #296,0.7,False,True,0,Low,2026-06-13
+MER000297,Local Cloud Kitchen #297,0.78,True,False,0,Low,2026-06-03
+MER000298,Local Telecom #298,0.8,False,False,0,Low,2026-05-11
+MER000299,Local Gym & Fitness #299,0.64,True,True,0,Low,2026-04-11
+MER000300,Local Fuel Station #300,0.46,False,True,6,Medium,2026-04-07
+MER000301,Local Streaming Service #301,0.1,False,False,4,High,2026-06-06
+MER000302,Local Grocery #302,0.97,True,True,0,Low,2026-05-29
+MER000303,Local Coaching #303,0.7,False,False,0,Low,2026-06-10
+MER000304,Local Pharmacy #304,0.06,False,True,4,High,2026-04-26
+MER000305,Local Airlines #305,0.94,True,True,0,Low,2026-06-12
+MER000306,Local Pharmacy #306,0.63,True,True,0,Low,2026-06-29
+MER000307,Local Restaurant #307,0.47,False,True,1,Medium,2026-06-14
+MER000308,Local Hotel #308,0.7,True,False,0,Low,2026-04-20
+MER000309,Local Travel Agency #309,0.66,True,False,0,Low,2026-05-23
+MER000310,Local Pharmacy #310,0.61,True,True,0,Low,2026-04-28
+MER000311,Local Restaurant #311,0.82,True,True,0,Low,2026-05-17
+MER000312,Local Electronics #312,0.77,False,False,0,Low,2026-06-23
+MER000313,Local Coaching #313,0.79,True,False,0,Low,2026-04-11
+MER000314,Local Hospital #314,0.66,False,True,0,Low,2026-04-06
+MER000315,Local Gym & Fitness #315,0.14,False,True,3,High,2026-04-16
+MER000316,Local Insurance #316,0.91,False,True,0,Low,2026-04-03
+MER000317,Local Jewellery #317,0.56,True,True,0,Low,2026-05-11
+MER000318,Local Restaurant #318,0.5,False,True,7,Medium,2026-05-01
+MER000319,Local Streaming Service #319,0.89,True,True,0,Low,2026-04-26
+MER000320,Local Healthcare #320,0.69,True,True,0,Low,2026-04-28
+MER000321,Local Education Institute #321,0.66,True,False,0,Low,2026-04-21
+MER000322,Local Mutual Fund #322,0.94,True,False,0,Low,2026-05-17
+MER000323,Local Jewellery #323,0.45,False,True,4,Medium,2026-05-31
+MER000324,Local Cloud Kitchen #324,0.96,True,False,0,Low,2026-06-30
+MER000325,Local Restaurant #325,0.51,True,False,0,Low,2026-04-06
+MER000326,Local Mutual Fund #326,0.11,False,False,1,High,2026-05-14
+MER000327,Local Cab Service #327,0.93,True,False,0,Low,2026-06-17
+MER000328,Local Gym & Fitness #328,0.78,True,False,0,Low,2026-04-11
+MER000329,Local Cab Service #329,0.63,False,False,0,Low,2026-04-12
+MER000330,Local Cloud Kitchen #330,0.38,False,True,9,Medium,2026-05-05
+MER000331,Local Mutual Fund #331,0.53,True,True,0,Low,2026-05-14
+MER000332,Local Fuel Station #332,0.56,True,True,0,Low,2026-04-05
+MER000333,Local Restaurant #333,0.55,True,False,0,Low,2026-06-16
+MER000334,Local Home Decor #334,0.7,True,False,0,Low,2026-04-07
+MER000335,Local Supermarket #335,0.44,False,True,3,Medium,2026-04-14
+MER000336,Local Hotel #336,0.45,False,True,5,Medium,2026-06-06
+MER000337,Local Fashion #337,0.77,True,True,0,Low,2026-06-11
+MER000338,Local Hotel #338,0.77,False,False,0,Low,2026-04-26
+MER000339,Local Cab Service #339,0.97,True,True,0,Low,2026-04-30
+MER000340,Local Coaching #340,0.57,False,False,2,Medium,2026-04-29
+MER000341,Local Fashion #341,0.77,False,True,0,Low,2026-06-20
+MER000342,Local Telecom #342,0.78,False,False,0,Low,2026-04-02
+MER000343,Local Home Decor #343,0.6,True,True,0,Low,2026-04-10
+MER000344,Local Stock Broker #344,0.85,True,True,0,Low,2026-05-31
+MER000345,Local Home Decor #345,0.83,True,True,0,Low,2026-06-18
+MER000346,Local Insurance #346,0.83,False,False,0,Low,2026-06-22
+MER000347,Local Hospital #347,0.88,False,True,0,Low,2026-06-21
+MER000348,Local Salon & Spa #348,0.29,False,False,7,High,2026-06-23
+MER000349,Local Streaming Service #349,0.61,True,True,0,Low,2026-06-18
+MER000350,Local Education Institute #350,0.42,False,False,2,Medium,2026-05-16
+MER000351,Local Utility Provider #351,0.69,True,True,0,Low,2026-05-17
+MER000352,Local Mutual Fund #352,0.9,False,True,0,Low,2026-04-19
+MER000353,Local Hotel #353,0.81,True,True,0,Low,2026-04-23
+MER000354,Local Pharmacy #354,0.98,False,True,0,Low,2026-05-12
+MER000355,Local Gaming #355,0.6,True,False,0,Low,2026-05-02
+MER000356,Local Home Decor #356,0.59,False,False,5,Medium,2026-04-02
+MER000357,Local Electronics #357,0.69,True,False,0,Low,2026-05-27
+MER000358,Local Fuel Station #358,0.57,False,True,4,Medium,2026-04-17
+MER000359,Local Airlines #359,0.54,True,True,0,Low,2026-06-23
+MER000360,Local Salon & Spa #360,0.94,True,False,0,Low,2026-04-04
+MER000361,Local Fuel Station #361,0.61,True,False,0,Low,2026-05-21
+MER000362,Local Mutual Fund #362,0.91,True,False,0,Low,2026-06-22
+MER000363,Local Automobile #363,0.5,False,False,0,Low,2026-06-27
+MER000364,Local E-commerce #364,0.99,True,False,0,Low,2026-06-22
+MER000365,Local Healthcare #365,0.74,True,False,0,Low,2026-06-29
+MER000366,Local Gym & Fitness #366,0.96,False,True,0,Low,2026-04-07
+MER000367,Local Travel Agency #367,0.93,True,True,0,Low,2026-06-08
+MER000368,Local Mutual Fund #368,0.56,False,False,2,Medium,2026-05-30
+MER000369,Local Fuel Station #369,0.97,False,True,0,Low,2026-05-29
+MER000370,Local Jewellery #370,0.96,True,True,0,Low,2026-06-25
+MER000371,Local Jewellery #371,0.95,True,True,0,Low,2026-06-28
+MER000372,Local Gym & Fitness #372,0.84,False,True,0,Low,2026-06-05
+MER000373,Local Real Estate #373,0.93,True,False,0,Low,2026-04-04
+MER000374,Local Gym & Fitness #374,0.35,False,True,7,Medium,2026-06-19
+MER000375,Local Cloud Kitchen #375,0.62,False,True,0,Low,2026-04-08
+MER000376,Local Streaming Service #376,0.96,False,False,0,Low,2026-04-19
+MER000377,Local Cloud Kitchen #377,0.69,False,True,0,Low,2026-06-22
+MER000378,Local Travel Agency #378,0.99,False,False,0,Low,2026-04-07
+MER000379,Local Home Decor #379,0.98,True,True,0,Low,2026-05-09
+MER000380,Local Supermarket #380,0.82,False,False,0,Low,2026-04-20
+MER000381,Local Jewellery #381,0.98,True,True,0,Low,2026-05-18
+MER000382,Local Salon & Spa #382,0.52,True,True,0,Low,2026-06-20
+MER000383,Local Insurance #383,0.53,True,True,0,Low,2026-05-05
+MER000384,Local Hotel #384,0.41,False,True,2,Medium,2026-04-26
+MER000385,Local Travel Agency #385,0.96,True,False,0,Low,2026-05-18
+MER000386,Local Home Decor #386,0.07,False,False,6,High,2026-06-29
+MER000387,Local Real Estate #387,0.65,True,False,0,Low,2026-06-10
+MER000388,Local Insurance #388,0.92,True,False,0,Low,2026-06-04
+MER000389,Local Telecom #389,0.84,False,False,0,Low,2026-06-26
+MER000390,Local Stock Broker #390,0.45,False,True,9,Medium,2026-06-21
+MER000391,Local Hotel #391,0.97,True,True,0,Low,2026-06-07
+MER000392,Local Jewellery #392,0.29,False,True,2,High,2026-04-13
+MER000393,Local Fashion #393,0.08,False,False,5,High,2026-05-27
+MER000394,Local Automobile #394,0.72,True,False,0,Low,2026-06-04
+MER000395,Local Coaching #395,0.72,True,False,0,Low,2026-04-25
+MER000396,Local Stock Broker #396,0.73,True,True,0,Low,2026-04-09
+MER000397,Local Supermarket #397,0.63,True,False,0,Low,2026-06-14
+MER000398,Local Mutual Fund #398,0.34,False,True,9,Medium,2026-06-30
+MER000399,Local Airlines #399,0.55,True,True,0,Low,2026-06-03
+MER000400,Local Salon & Spa #400,0.96,True,False,0,Low,2026-05-19
+MER000401,Local Gym & Fitness #401,0.71,True,False,0,Low,2026-05-08
+MER000402,Local Hotel #402,0.35,False,False,3,Medium,2026-04-08
+MER000403,Local Fuel Station #403,0.74,False,True,0,Low,2026-04-26
+MER000404,Local Utility Provider #404,0.97,False,False,0,Low,2026-06-07
+MER000405,Local Gym & Fitness #405,0.34,False,False,9,Medium,2026-06-08
+MER000406,Local Education Institute #406,0.95,True,True,0,Low,2026-05-12
+MER000407,Local Gaming #407,0.51,False,False,8,Medium,2026-05-09
+MER000408,Local Grocery #408,0.79,True,True,0,Low,2026-06-06
+MER000409,Local Streaming Service #409,0.66,True,True,0,Low,2026-04-16
+MER000410,Local Cloud Kitchen #410,0.44,False,False,9,Medium,2026-06-19
+MER000411,Local Coaching #411,0.35,False,False,6,Medium,2026-06-01
+MER000412,Local Home Decor #412,0.1,False,False,8,High,2026-04-14
+MER000413,Local Hospital #413,0.6,True,True,0,Low,2026-05-22
+MER000414,Local Streaming Service #414,0.87,True,False,0,Low,2026-06-16
+MER000415,Local Supermarket #415,0.51,True,True,0,Low,2026-05-21
+MER000416,Local Coaching #416,0.77,True,False,0,Low,2026-05-12
+MER000417,Local Grocery #417,0.11,False,True,7,High,2026-05-26
+MER000418,Local Pharmacy #418,0.81,False,True,0,Low,2026-05-12
+MER000419,Local Home Decor #419,0.76,True,True,0,Low,2026-05-29
+MER000420,Local Real Estate #420,0.59,False,False,0,Low,2026-06-29
+MER000421,Local E-commerce #421,0.93,False,False,0,Low,2026-04-12
+MER000422,Local Pharmacy #422,0.77,True,False,0,Low,2026-04-13
+MER000423,Local Hotel #423,0.99,False,False,0,Low,2026-04-05
+MER000424,Local Home Decor #424,0.99,True,True,0,Low,2026-06-23
+MER000425,Local Cab Service #425,0.46,False,False,9,Medium,2026-04-04
+MER000426,Local Hotel #426,0.7,True,False,0,Low,2026-05-30
+MER000427,Local Automobile #427,0.38,False,False,2,Medium,2026-06-12
+MER000428,Local Salon & Spa #428,0.06,False,True,6,High,2026-06-09
+MER000429,Local Jewellery #429,0.64,True,False,0,Low,2026-05-10
+MER000430,Local Fashion #430,0.59,True,False,0,Low,2026-06-21
+MER000431,Local Streaming Service #431,0.98,True,True,0,Low,2026-05-30
+MER000432,Local Real Estate #432,0.99,False,False,0,Low,2026-05-19
+MER000433,Local E-commerce #433,0.64,True,True,0,Low,2026-04-30
+MER000434,Local Education Institute #434,0.63,True,False,0,Low,2026-04-18
+MER000435,Local Home Decor #435,0.62,True,True,0,Low,2026-06-21
+MER000436,Local E-commerce #436,0.76,True,False,0,Low,2026-04-06
+MER000437,Local Cloud Kitchen #437,0.95,False,False,0,Low,2026-05-17
+MER000438,Local Real Estate #438,0.47,False,True,5,Medium,2026-06-29
+MER000439,Local Cab Service #439,0.86,True,True,0,Low,2026-05-29
+MER000440,Local Education Institute #440,0.8,True,True,0,Low,2026-04-03
+MER000441,Local Pharmacy #441,0.81,False,False,0,Low,2026-05-20
+MER000442,Local Jewellery #442,0.6,False,True,4,Medium,2026-04-30
+MER000443,Local Healthcare #443,0.65,True,True,0,Low,2026-05-31
+MER000444,Local Grocery #444,0.78,True,True,0,Low,2026-05-25
+MER000445,Local Gym & Fitness #445,0.13,False,False,7,High,2026-05-18
+MER000446,Local Hotel #446,0.92,True,True,0,Low,2026-05-16
+MER000447,Local Education Institute #447,0.66,True,False,0,Low,2026-04-04
+MER000448,Local Hospital #448,0.52,False,True,8,Medium,2026-05-22
+MER000449,Local Mutual Fund #449,0.51,False,True,7,Medium,2026-06-12
+MER000450,Local Electronics #450,0.25,False,False,2,High,2026-06-08
+MER000451,Local Automobile #451,0.17,False,False,9,High,2026-05-19
+MER000452,Local Insurance #452,0.69,True,True,0,Low,2026-04-09
+MER000453,Local Streaming Service #453,0.58,False,True,0,Low,2026-05-16
+MER000454,Local Gym & Fitness #454,0.86,False,True,0,Low,2026-06-23
+MER000455,Local Gym & Fitness #455,0.61,False,False,0,Low,2026-04-11
+MER000456,Local Pharmacy #456,0.71,True,True,0,Low,2026-05-19
+MER000457,Local Airlines #457,0.69,True,True,0,Low,2026-06-17
+MER000458,Local Automobile #458,0.69,True,True,0,Low,2026-04-14
+MER000459,Local Home Decor #459,0.82,False,True,0,Low,2026-05-02
+MER000460,Local Cab Service #460,0.77,False,False,0,Low,2026-05-25
+MER000461,Local Jewellery #461,0.41,False,True,3,Medium,2026-05-25
+MER000462,Local Fashion #462,0.85,True,True,0,Low,2026-06-06
+MER000463,Local Restaurant #463,0.9,False,True,0,Low,2026-04-13
+MER000464,Local Hospital #464,0.53,False,False,9,Medium,2026-05-25
+MER000465,Local Pharmacy #465,0.37,False,True,7,Medium,2026-05-16
+MER000466,Local Travel Agency #466,0.87,True,False,0,Low,2026-04-07
+MER000467,Local Coaching #467,0.7,True,False,0,Low,2026-06-10
+MER000468,Local Salon & Spa #468,0.58,False,True,2,Medium,2026-05-06
+MER000469,Local E-commerce #469,0.87,True,True,0,Low,2026-05-30
+MER000470,Local Gym & Fitness #470,0.53,False,True,8,Medium,2026-06-17
+MER000471,Local Insurance #471,0.87,True,True,0,Low,2026-04-08
+MER000472,Local Pharmacy #472,0.98,True,False,0,Low,2026-04-23
+MER000473,Local Hospital #473,0.33,False,False,1,Medium,2026-04-16
+MER000474,Local E-commerce #474,0.68,True,False,0,Low,2026-06-29
+MER000475,Local E-commerce #475,0.89,False,True,0,Low,2026-05-08
+MER000476,Local Salon & Spa #476,0.5,True,False,0,Low,2026-06-13
+MER000477,Local Healthcare #477,0.59,True,False,0,Low,2026-06-02
+MER000478,Local Streaming Service #478,0.74,True,True,0,Low,2026-05-07
+MER000479,Local Real Estate #479,0.86,True,False,0,Low,2026-06-11
+MER000480,Local Automobile #480,0.5,True,True,0,Low,2026-06-23
+MER000481,Local Grocery #481,0.86,False,True,0,Low,2026-04-16
+MER000482,Local Grocery #482,0.95,True,False,0,Low,2026-06-27
+MER000483,Local Telecom #483,0.92,True,True,0,Low,2026-05-23
+MER000484,Local Automobile #484,0.86,True,True,0,Low,2026-05-05
+MER000485,Local Airlines #485,0.88,True,False,0,Low,2026-04-08
+MER000486,Local Travel Agency #486,0.95,True,True,0,Low,2026-04-03
+MER000487,Local Jewellery #487,0.58,True,True,0,Low,2026-06-17
+MER000488,Local Insurance #488,0.87,True,True,0,Low,2026-06-19
+MER000489,Local Restaurant #489,0.69,True,False,0,Low,2026-04-03
+MER000490,Local Healthcare #490,0.8,True,False,0,Low,2026-04-02
+MER000491,Local Gaming #491,0.98,False,True,0,Low,2026-06-08
+MER000492,Local Streaming Service #492,0.27,False,True,6,High,2026-05-16
+MER000493,Local Utility Provider #493,0.47,False,True,1,Medium,2026-05-18
+MER000494,Local Gym & Fitness #494,0.91,True,True,0,Low,2026-04-18
+MER000495,Local Jewellery #495,0.71,True,False,0,Low,2026-04-15
+MER000496,Local Supermarket #496,0.72,False,False,0,Low,2026-05-07
+MER000497,Local Home Decor #497,0.83,False,False,0,Low,2026-04-21
+MER000498,Local Gaming #498,0.89,True,False,0,Low,2026-05-27
+MER000499,Local Fashion #499,0.61,True,True,0,Low,2026-05-09
+MER000500,Local Hospital #500,0.37,False,True,6,Medium,2026-06-19

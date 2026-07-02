@@ -1,0 +1,17 @@
+{
+    "version": "LightGBM_20260702_185654",
+    "model_type": "LightGBM",
+    "training_date": "2026-07-02T18:56:54.268285",
+    "metrics": {
+        "Accuracy": 0.9597,
+        "Precision": 0.3380035026269702,
+        "Recall": 0.8853211009174312,
+        "F1_Score": 0.4892268694550063,
+        "ROC_AUC": 0.9824532609042259
+    },
+    "artifacts": {
+        "model": "C:\\Users\\ak500\\OneDrive\\Desktop\\IT\\nirnay\\ml\\models\\LightGBM_20260702_185654_model.joblib",
+        "preprocessor": "C:\\Users\\ak500\\OneDrive\\Desktop\\IT\\nirnay\\ml\\models\\LightGBM_20260702_185654_preprocessor.joblib",
+        "feature_engineer": "C:\\Users\\ak500\\OneDrive\\Desktop\\IT\\nirnay\\ml\\models\\LightGBM_20260702_185654_fe.joblib"
+    }
+}

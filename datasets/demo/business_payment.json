@@ -1,0 +1,58 @@
+{
+  "scenario_id": "business_payment",
+  "display_name": "Business Payment — Vendor Invoice",
+  "description": "Legitimate business payment to a regular vendor. Medium risk due to large amount.",
+  "icon": "business",
+  "risk_category": "Low Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-011",
+    "full_name": "Rajesh Kapoor",
+    "age": 48,
+    "occupation": "Business Owner",
+    "city": "Mumbai",
+    "monthly_income": 300000,
+    "average_transaction": 45000,
+    "credit_score": 800,
+    "risk_profile": "Moderate"
+  },
+  "transaction": {
+    "amount": 250000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "RTGS",
+    "purpose": "Invoice payment - INV-2026-0892 to regular supplier",
+    "recipient": {
+      "name": "Sharma Textiles Pvt Ltd",
+      "relationship": "Business",
+      "bank": "HDFC Bank",
+      "trusted": true,
+      "transaction_count": 15,
+      "first_added": "2024-03-10"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 22,
+    "risk_level": "Low",
+    "verdict": "Auto-Approve",
+    "risk_factors": [
+      {
+        "factor": "Large amount",
+        "impact": 12,
+        "description": "5.5x average but within business norms"
+      },
+      {
+        "factor": "Trusted vendor",
+        "impact": -8,
+        "description": "15 prior transactions over 2 years"
+      },
+      {
+        "factor": "Business relationship",
+        "impact": -5,
+        "description": "Established business relationship"
+      }
+    ]
+  },
+  "expected_explanation": "Large but legitimate business payment to a trusted vendor with established history.",
+  "expected_conversation": null,
+  "expected_decision": "auto_approved"
+}

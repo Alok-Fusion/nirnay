@@ -1,0 +1,42 @@
+{
+  "scenario_id": "utility_payment",
+  "display_name": "Utility Payment — Electricity Bill",
+  "description": "Monthly electricity bill payment to a verified utility provider.",
+  "icon": "bolt",
+  "risk_category": "Safe",
+  "customer": {
+    "customer_id": "DEMO-CUS-003",
+    "full_name": "Vikram Reddy",
+    "age": 45,
+    "occupation": "Business Owner",
+    "city": "Hyderabad",
+    "monthly_income": 200000,
+    "average_transaction": 15000,
+    "credit_score": 750,
+    "risk_profile": "Moderate"
+  },
+  "transaction": {
+    "amount": 4500,
+    "currency": "INR",
+    "category": "Utilities",
+    "payment_channel": "Auto Debit",
+    "purpose": "Electricity bill - June 2026",
+    "recipient": {
+      "name": "TSSPDCL",
+      "relationship": "Merchant",
+      "bank": "State Bank of India",
+      "trusted": true,
+      "transaction_count": 36,
+      "first_added": "2023-06-01"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 5,
+    "risk_level": "Low",
+    "verdict": "Auto-Approve",
+    "risk_factors": []
+  },
+  "expected_explanation": "Routine utility payment to a verified provider.",
+  "expected_conversation": null,
+  "expected_decision": "auto_approved"
+}

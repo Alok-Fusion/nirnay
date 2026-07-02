@@ -1,0 +1,68 @@
+{
+  "scenario_id": "lottery_scam",
+  "display_name": "Lottery Scam — WhatsApp Prize Winner",
+  "description": "WhatsApp message claiming customer won ₹10 lakh lottery and needs to pay processing fee.",
+  "icon": "emoji_events",
+  "risk_category": "Critical Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-009",
+    "full_name": "Deepak Singh",
+    "age": 52,
+    "occupation": "Shop Owner",
+    "city": "Lucknow",
+    "monthly_income": 30000,
+    "average_transaction": 2500,
+    "credit_score": 660,
+    "risk_profile": "Moderate"
+  },
+  "transaction": {
+    "amount": 15000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "UPI",
+    "purpose": "Processing fee for KBC lottery prize of Rs 10,00,000 - reference number KBC2026-98765",
+    "recipient": {
+      "name": "KBC Prize Department",
+      "relationship": "Unknown",
+      "bank": "Punjab National Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-30"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 96,
+    "risk_level": "Critical",
+    "verdict": "Auto-Block",
+    "risk_factors": [
+      {
+        "factor": "Lottery scam exact match",
+        "impact": 40,
+        "description": "KBC lottery prize fraud - one of India's most common scams"
+      },
+      {
+        "factor": "Advance fee demand",
+        "impact": 25,
+        "description": "Legitimate prizes never require upfront payment"
+      },
+      {
+        "factor": "New unknown entity",
+        "impact": 15,
+        "description": "No prior relationship with 'KBC Prize Department'"
+      },
+      {
+        "factor": "Impersonation",
+        "impact": 10,
+        "description": "KBC is a registered trademark - this entity is not affiliated"
+      },
+      {
+        "factor": "Unsolicited contact",
+        "impact": 6,
+        "description": "You cannot win a lottery you did not enter"
+      }
+    ]
+  },
+  "expected_explanation": "BLOCKED: This is a textbook lottery scam. KBC (Kaun Banega Crorepati) does NOT conduct lotteries or distribute prizes via WhatsApp. Legitimate prizes never require processing fees. This is one of the most common scams in India.",
+  "expected_conversation": null,
+  "expected_decision": "system_blocked"
+}

@@ -1,0 +1,99 @@
+{
+  "scenario_id": "investment_scam",
+  "display_name": "Investment Scam — Guaranteed Returns",
+  "description": "Transfer to a fraudulent investment scheme promising 40% monthly returns. Classic Ponzi scheme indicators.",
+  "icon": "trending_up",
+  "risk_category": "High Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-004",
+    "full_name": "Ankit Gupta",
+    "age": 38,
+    "occupation": "Sales Executive",
+    "city": "Delhi",
+    "monthly_income": 55000,
+    "average_transaction": 5000,
+    "credit_score": 680,
+    "risk_profile": "Moderate"
+  },
+  "transaction": {
+    "amount": 50000,
+    "currency": "INR",
+    "category": "Investment",
+    "payment_channel": "NEFT",
+    "purpose": "Investment in Guaranteed Returns Scheme - promised 40% monthly returns by WhatsApp group admin",
+    "recipient": {
+      "name": "GR Investments Pvt Ltd",
+      "relationship": "Unknown",
+      "bank": "Yes Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-28"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 82,
+    "risk_level": "High",
+    "verdict": "Trigger Agentic Conversation",
+    "risk_factors": [
+      {
+        "factor": "Scam pattern match",
+        "impact": 30,
+        "description": "Purpose matches 'guaranteed returns' investment scam pattern (92% similarity)"
+      },
+      {
+        "factor": "New unknown recipient",
+        "impact": 20,
+        "description": "First-ever transfer to this entity, added 2 days ago"
+      },
+      {
+        "factor": "10x above average",
+        "impact": 18,
+        "description": "Amount is 10x your typical transaction of ₹5,000"
+      },
+      {
+        "factor": "Urgency language",
+        "impact": 8,
+        "description": "Contains urgency markers suggesting social pressure"
+      },
+      {
+        "factor": "Unknown relationship",
+        "impact": 6,
+        "description": "No established relationship with recipient"
+      }
+    ]
+  },
+  "expected_explanation": "This transaction exhibits multiple red flags consistent with investment scam patterns. No legitimate investment can guarantee 40% monthly returns. The recipient was added only 2 days ago, and the amount is 10x your average. This pattern matches known Ponzi schemes operating via WhatsApp groups.",
+  "expected_conversation": [
+    {
+      "turn": 1,
+      "speaker": "Agent",
+      "message": "I've detected significant risk indicators in this transaction. Before processing, I need to verify a few things. How did you first learn about this investment opportunity?"
+    },
+    {
+      "turn": 2,
+      "speaker": "Customer",
+      "message": "Someone in a WhatsApp group shared it. They showed screenshots of their profits."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "message": "Thank you. Screenshots of profits are easily fabricated and are a hallmark of Ponzi schemes. Have you independently verified if 'GR Investments Pvt Ltd' is registered with SEBI or any financial regulator?"
+    },
+    {
+      "turn": 4,
+      "speaker": "Customer",
+      "message": "No, I haven't checked with SEBI. The admin said registration isn't needed for this type of scheme."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "message": "That's a major red flag. ALL legitimate investment schemes in India must be registered with SEBI. Guaranteeing 40% monthly returns is mathematically unsustainable and illegal under SEBI regulations. I strongly recommend cancelling this transaction. This matches patterns of known Ponzi schemes that have caused significant financial losses."
+    },
+    {
+      "turn": 6,
+      "speaker": "Customer",
+      "message": "Thank you for the warning. I didn't realize this was a scam. I will cancel."
+    }
+  ],
+  "expected_decision": "user_cancelled"
+}

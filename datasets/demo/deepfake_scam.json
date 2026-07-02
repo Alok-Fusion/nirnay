@@ -1,0 +1,94 @@
+{
+  "scenario_id": "deepfake_scam",
+  "display_name": "Deepfake Scam — Boss Impersonation",
+  "description": "AI-generated voice clone impersonating the customer's boss, requesting an urgent vendor payment.",
+  "icon": "face_retouching_off",
+  "risk_category": "High Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-007",
+    "full_name": "Kavya Joshi",
+    "age": 29,
+    "occupation": "Business Analyst",
+    "city": "Gurgaon",
+    "monthly_income": 80000,
+    "average_transaction": 6000,
+    "credit_score": 740,
+    "risk_profile": "Conservative"
+  },
+  "transaction": {
+    "amount": 200000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "NEFT",
+    "purpose": "Urgent vendor payment as instructed by director - confidential",
+    "recipient": {
+      "name": "FastTrack Solutions",
+      "relationship": "Unknown",
+      "bank": "Axis Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-30"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 78,
+    "risk_level": "High",
+    "verdict": "Trigger Agentic Conversation",
+    "risk_factors": [
+      {
+        "factor": "Deepfake pattern match",
+        "impact": 25,
+        "description": "Voice-instructed urgent payment to unknown vendor matches deepfake scam pattern"
+      },
+      {
+        "factor": "Extreme amount",
+        "impact": 22,
+        "description": "33x your average transaction"
+      },
+      {
+        "factor": "New recipient",
+        "impact": 15,
+        "description": "Brand new recipient added today"
+      },
+      {
+        "factor": "Confidentiality request",
+        "impact": 10,
+        "description": "'Confidential' keyword is a manipulation tactic"
+      },
+      {
+        "factor": "Authority pressure",
+        "impact": 6,
+        "description": "Instruction from authority figure creates compliance pressure"
+      }
+    ]
+  },
+  "expected_explanation": "This transaction exhibits hallmarks of deepfake voice-clone fraud. Scammers use AI to clone a boss's voice and instruct urgent, confidential payments to unknown vendors.",
+  "expected_conversation": [
+    {
+      "turn": 1,
+      "speaker": "Agent",
+      "message": "This transaction raises serious concerns. You mentioned this was instructed by your director. Did you receive this instruction via a phone call?"
+    },
+    {
+      "turn": 2,
+      "speaker": "Customer",
+      "message": "Yes, my director called me and asked me to make this payment urgently to a new vendor."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "message": "Were you asked to keep this payment confidential or not discuss it with other colleagues?"
+    },
+    {
+      "turn": 4,
+      "speaker": "Customer",
+      "message": "Yes, he said it's a sensitive deal and I shouldn't discuss it with anyone."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "message": "This is a critical red flag. AI voice-cloning technology can now replicate anyone's voice from just a few minutes of audio. The combination of urgency, confidentiality, and a new unknown recipient is the exact pattern of deepfake CEO fraud. I strongly recommend you: 1) Call your director back on their known number. 2) Verify the payment through your company's standard approval process. 3) Do NOT proceed based solely on a phone call."
+    }
+  ],
+  "expected_decision": "user_cancelled"
+}

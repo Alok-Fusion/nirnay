@@ -1,0 +1,104 @@
+{
+  "scenario_id": "romance_scam",
+  "display_name": "Romance Scam — Emergency Medical Funds",
+  "description": "Online partner requesting emergency funds for a medical situation.",
+  "icon": "favorite",
+  "risk_category": "Medium Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-006",
+    "full_name": "Sneha Nair",
+    "age": 34,
+    "occupation": "Teacher",
+    "city": "Kochi",
+    "monthly_income": 40000,
+    "average_transaction": 4000,
+    "credit_score": 720,
+    "risk_profile": "Conservative"
+  },
+  "transaction": {
+    "amount": 75000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "NEFT",
+    "purpose": "Emergency medical help for partner - surgery needed urgently",
+    "recipient": {
+      "name": "Michael Roberts",
+      "relationship": "Unknown",
+      "bank": "ICICI Bank",
+      "trusted": false,
+      "transaction_count": 2,
+      "first_added": "2026-05-15"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 65,
+    "risk_level": "High",
+    "verdict": "Trigger Agentic Conversation",
+    "risk_factors": [
+      {
+        "factor": "Romance scam pattern",
+        "impact": 22,
+        "description": "Emergency medical fund request from recent online contact"
+      },
+      {
+        "factor": "High amount deviation",
+        "impact": 18,
+        "description": "Nearly 19x your average transaction"
+      },
+      {
+        "factor": "Recent untrusted recipient",
+        "impact": 12,
+        "description": "Only 2 prior transactions, added 6 weeks ago"
+      },
+      {
+        "factor": "Emotional urgency",
+        "impact": 8,
+        "description": "Contains emotional pressure and urgency language"
+      },
+      {
+        "factor": "Foreign-sounding name",
+        "impact": 5,
+        "description": "Name pattern commonly used in romance scams"
+      }
+    ]
+  },
+  "expected_explanation": "This transaction shows patterns consistent with romance scams. The combination of an online relationship, medical emergency urgency, and a large transfer to a recently-added contact are classic indicators.",
+  "expected_conversation": [
+    {
+      "turn": 1,
+      "speaker": "Agent",
+      "message": "I want to ask you about this transfer. Can you tell me how you know Michael Roberts and how long you've been in contact?"
+    },
+    {
+      "turn": 2,
+      "speaker": "Customer",
+      "message": "We met on a dating app about 2 months ago. He's been very caring and we talk every day."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "message": "Have you ever met Michael in person or had a video call with him?"
+    },
+    {
+      "turn": 4,
+      "speaker": "Customer",
+      "message": "Not in person. He's based abroad. We've only done voice calls - he says his camera is broken."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "message": "I need to share something important. This follows a very common pattern of romance scams: an online relationship where the person avoids video calls, builds emotional connection, and then requests money for an emergency. 75,000 rupees is a significant amount. I strongly recommend not sending this until you can independently verify his identity and situation."
+    },
+    {
+      "turn": 6,
+      "speaker": "Customer",
+      "message": "But what if he really is in trouble? I care about him."
+    },
+    {
+      "turn": 7,
+      "speaker": "Agent",
+      "message": "Your compassion is understandable, but protecting yourself is important. If Michael is genuine, he will understand your need to verify. I suggest: 1) Request a video call before any transfer. 2) Ask for hospital details you can independently verify. 3) Never send money to someone you haven't met in person. Would you like to reconsider this transaction?"
+    }
+  ],
+  "expected_decision": "user_cancelled"
+}

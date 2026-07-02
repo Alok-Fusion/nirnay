@@ -1,0 +1,79 @@
+{
+  "scenario_id": "large_first_time",
+  "display_name": "Large First-Time Transfer — Property Advance",
+  "description": "Large transfer to a new recipient for property booking. Moderate risk requiring verification.",
+  "icon": "home",
+  "risk_category": "Medium Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-012",
+    "full_name": "Siddharth Banerjee",
+    "age": 35,
+    "occupation": "Software Engineer",
+    "city": "Bangalore",
+    "monthly_income": 180000,
+    "average_transaction": 15000,
+    "credit_score": 790,
+    "risk_profile": "Moderate"
+  },
+  "transaction": {
+    "amount": 500000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "RTGS",
+    "purpose": "Booking advance for flat in Whitefield - builder ABC Realty",
+    "recipient": {
+      "name": "ABC Realty Developers",
+      "relationship": "Business",
+      "bank": "ICICI Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-29"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 48,
+    "risk_level": "Medium",
+    "verdict": "Show Warning",
+    "risk_factors": [
+      {
+        "factor": "Very large amount",
+        "impact": 20,
+        "description": "33x your average transaction"
+      },
+      {
+        "factor": "New recipient",
+        "impact": 15,
+        "description": "First transaction with this entity"
+      },
+      {
+        "factor": "Real estate category",
+        "impact": 8,
+        "description": "Large real estate transactions warrant verification"
+      },
+      {
+        "factor": "Business entity",
+        "impact": -5,
+        "description": "Payment to a registered business name"
+      }
+    ]
+  },
+  "expected_explanation": "Large first-time transfer for property booking. While this could be legitimate, the amount is significant and the recipient is new. We recommend verifying the builder's RERA registration before proceeding.",
+  "expected_conversation": [
+    {
+      "turn": 1,
+      "speaker": "Agent",
+      "message": "This is a large transfer to a new recipient. Can you confirm - have you visited the property and met the builder in person?"
+    },
+    {
+      "turn": 2,
+      "speaker": "Customer",
+      "message": "Yes, I visited the site last week and have all the documentation. The builder is RERA registered."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "message": "Good. Since you've verified the builder's RERA registration and visited the property, this appears legitimate. I recommend keeping all documentation. You may proceed with caution."
+    }
+  ],
+  "expected_decision": "user_approved"
+}

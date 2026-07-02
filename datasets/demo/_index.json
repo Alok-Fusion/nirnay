@@ -1,0 +1,77 @@
+{
+  "total_scenarios": 12,
+  "scenarios": [
+    {
+      "scenario_id": "normal_transfer",
+      "display_name": "Normal Transfer — Family Support",
+      "risk_category": "Safe",
+      "icon": "check_circle"
+    },
+    {
+      "scenario_id": "salary_credit",
+      "display_name": "Salary Credit — Monthly Payroll",
+      "risk_category": "Safe",
+      "icon": "account_balance_wallet"
+    },
+    {
+      "scenario_id": "utility_payment",
+      "display_name": "Utility Payment — Electricity Bill",
+      "risk_category": "Safe",
+      "icon": "bolt"
+    },
+    {
+      "scenario_id": "investment_scam",
+      "display_name": "Investment Scam — Guaranteed Returns",
+      "risk_category": "High Risk",
+      "icon": "trending_up"
+    },
+    {
+      "scenario_id": "crypto_scam",
+      "display_name": "Crypto Scam — Doubling Scheme",
+      "risk_category": "High Risk",
+      "icon": "currency_bitcoin"
+    },
+    {
+      "scenario_id": "romance_scam",
+      "display_name": "Romance Scam — Emergency Medical Funds",
+      "risk_category": "Medium Risk",
+      "icon": "favorite"
+    },
+    {
+      "scenario_id": "deepfake_scam",
+      "display_name": "Deepfake Scam — Boss Impersonation",
+      "risk_category": "High Risk",
+      "icon": "face_retouching_off"
+    },
+    {
+      "scenario_id": "fake_bank_officer",
+      "display_name": "Fake Bank Officer — KYC Update Fraud",
+      "risk_category": "Critical Risk",
+      "icon": "security"
+    },
+    {
+      "scenario_id": "lottery_scam",
+      "display_name": "Lottery Scam — WhatsApp Prize Winner",
+      "risk_category": "Critical Risk",
+      "icon": "emoji_events"
+    },
+    {
+      "scenario_id": "emergency_relative",
+      "display_name": "Emergency Relative — Fake Accident Claim",
+      "risk_category": "High Risk",
+      "icon": "local_hospital"
+    },
+    {
+      "scenario_id": "business_payment",
+      "display_name": "Business Payment — Vendor Invoice",
+      "risk_category": "Low Risk",
+      "icon": "business"
+    },
+    {
+      "scenario_id": "large_first_time",
+      "display_name": "Large First-Time Transfer — Property Advance",
+      "risk_category": "Medium Risk",
+      "icon": "home"
+    }
+  ]
+}

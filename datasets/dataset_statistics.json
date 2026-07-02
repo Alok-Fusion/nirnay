@@ -1,0 +1,40 @@
+{
+  "generation_timestamp": "2026-07-02T18:42:34.344622",
+  "random_seed": 42,
+  "record_counts": {
+    "customers": 1000,
+    "accounts": 1101,
+    "recipients": 7629,
+    "merchants": 500,
+    "transactions": 50000,
+    "risk_events": 9630,
+    "scam_patterns": 200,
+    "conversations": 27646,
+    "feedback": 5846,
+    "ml_features": 50000,
+    "demo_scenarios": 12
+  },
+  "risk_distribution": {
+    "Low": 4891,
+    "Medium": 3481,
+    "High": 1229,
+    "Critical": 29
+  },
+  "transaction_distribution": {
+    "Food & Dining": 8685,
+    "Shopping": 5763,
+    "Transfer": 5577,
+    "Utilities": 4855,
+    "Investment": 3190,
+    "EMI": 2997,
+    "Subscription": 2903,
+    "Fuel": 2449,
+    "Rent": 2444,
+    "Entertainment": 2431,
+    "Healthcare": 1952,
+    "Salary": 1937,
+    "Travel": 1915,
+    "Education": 1465,
+    "Insurance": 1437
+  }
+}

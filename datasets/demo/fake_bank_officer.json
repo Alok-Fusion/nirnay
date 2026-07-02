@@ -1,0 +1,68 @@
+{
+  "scenario_id": "fake_bank_officer",
+  "display_name": "Fake Bank Officer — KYC Update Fraud",
+  "description": "Caller impersonating bank officer threatening account freeze unless KYC fee is paid immediately.",
+  "icon": "security",
+  "risk_category": "Critical Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-008",
+    "full_name": "Sunita Verma",
+    "age": 58,
+    "occupation": "Retired",
+    "city": "Jaipur",
+    "monthly_income": 35000,
+    "average_transaction": 3000,
+    "credit_score": 700,
+    "risk_profile": "Conservative"
+  },
+  "transaction": {
+    "amount": 25000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "IMPS",
+    "purpose": "KYC update fee - bank officer Mr Kapoor said account will be frozen in 2 hours if not paid",
+    "recipient": {
+      "name": "Rajiv Kapoor",
+      "relationship": "Unknown",
+      "bank": "HDFC Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-30"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 94,
+    "risk_level": "Critical",
+    "verdict": "Auto-Block",
+    "risk_factors": [
+      {
+        "factor": "Bank impersonation pattern",
+        "impact": 35,
+        "description": "Exact match with 'KYC Update Fraud' scam pattern"
+      },
+      {
+        "factor": "Account freeze threat",
+        "impact": 20,
+        "description": "Threat-based urgency is a hallmark of impersonation scams"
+      },
+      {
+        "factor": "Payment to personal account",
+        "impact": 18,
+        "description": "Banks never collect fees via personal accounts"
+      },
+      {
+        "factor": "New unknown recipient",
+        "impact": 12,
+        "description": "Brand new personal recipient"
+      },
+      {
+        "factor": "Vulnerable profile",
+        "impact": 9,
+        "description": "Retired customers are disproportionately targeted"
+      }
+    ]
+  },
+  "expected_explanation": "BLOCKED: This transaction has been automatically blocked. Banks NEVER charge KYC fees through personal transfers. No bank officer will ask you to transfer money to a personal account. This is a known impersonation scam. Please contact your bank directly through the number on your card or bank statement.",
+  "expected_conversation": null,
+  "expected_decision": "system_blocked"
+}

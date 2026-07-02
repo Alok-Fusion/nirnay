@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:17
+    container_name: nirnay_db
+    environment:
+      POSTGRES_USER: nirnay_user
+      POSTGRES_PASSWORD: nirnay_password
+      POSTGRES_DB: nirnay_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: nirnay_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@nirnay.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '5050:80'
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+

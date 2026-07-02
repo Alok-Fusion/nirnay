@@ -1,0 +1,94 @@
+{
+  "scenario_id": "crypto_scam",
+  "display_name": "Crypto Scam — Doubling Scheme",
+  "description": "Cryptocurrency doubling scheme promoted via Telegram with AI trading claims.",
+  "icon": "currency_bitcoin",
+  "risk_category": "High Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-005",
+    "full_name": "Rohan Mehta",
+    "age": 25,
+    "occupation": "Freelancer",
+    "city": "Pune",
+    "monthly_income": 45000,
+    "average_transaction": 3000,
+    "credit_score": 650,
+    "risk_profile": "Aggressive"
+  },
+  "transaction": {
+    "amount": 100000,
+    "currency": "INR",
+    "category": "Investment",
+    "payment_channel": "IMPS",
+    "purpose": "Deposit to CryptoAI Trading - guaranteed 2x returns in 24 hours using proprietary AI algorithm",
+    "recipient": {
+      "name": "CryptoAI Global",
+      "relationship": "Unknown",
+      "bank": "IndusInd Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-30"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 88,
+    "risk_level": "High",
+    "verdict": "Trigger Agentic Conversation",
+    "risk_factors": [
+      {
+        "factor": "Crypto scam pattern",
+        "impact": 35,
+        "description": "Matches known crypto doubling scheme (95% similarity)"
+      },
+      {
+        "factor": "Extreme amount deviation",
+        "impact": 25,
+        "description": "33x your average transaction"
+      },
+      {
+        "factor": "Brand new recipient",
+        "impact": 15,
+        "description": "Recipient added today"
+      },
+      {
+        "factor": "Unrealistic claims",
+        "impact": 8,
+        "description": "Guaranteed 2x returns in 24 hours is mathematically impossible"
+      },
+      {
+        "factor": "AI hype exploitation",
+        "impact": 5,
+        "description": "Uses AI buzzwords to create false credibility"
+      }
+    ]
+  },
+  "expected_explanation": "This transaction matches a known cryptocurrency doubling scam pattern. No legitimate trading platform can guarantee 2x returns in 24 hours. The use of 'AI algorithm' claims is a common tactic to create false credibility. The recipient was added today and the amount is 33x your average.",
+  "expected_conversation": [
+    {
+      "turn": 1,
+      "speaker": "Agent",
+      "message": "This transaction has triggered our highest risk alerts. The platform 'CryptoAI Global' promises guaranteed 2x returns in 24 hours. Can you tell me how you discovered this platform?"
+    },
+    {
+      "turn": 2,
+      "speaker": "Customer",
+      "message": "A friend on Telegram shared the link. He said he already doubled his money."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "message": "Telegram is the most common platform for crypto scam distribution. Your friend may either be part of the scheme or also a victim. Have you verified that CryptoAI Global is registered with any financial regulator?"
+    },
+    {
+      "turn": 4,
+      "speaker": "Customer",
+      "message": "I didn't check. But they have a professional website with testimonials."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "message": "Professional websites are trivially easy to create. I strongly recommend cancelling this transaction. No legitimate investment can guarantee doubling your money in 24 hours. This follows the exact pattern of crypto Ponzi schemes that have collectively stolen billions globally."
+    }
+  ],
+  "expected_decision": "user_cancelled"
+}

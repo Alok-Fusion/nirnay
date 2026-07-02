@@ -1,0 +1,58 @@
+{
+  "scenario_id": "normal_transfer",
+  "display_name": "Normal Transfer — Family Support",
+  "description": "A routine monthly transfer to a family member. No risk indicators. Demonstrates the happy path.",
+  "icon": "check_circle",
+  "risk_category": "Safe",
+  "customer": {
+    "customer_id": "DEMO-CUS-001",
+    "full_name": "Aarav Sharma",
+    "age": 32,
+    "occupation": "Software Engineer",
+    "city": "Bangalore",
+    "monthly_income": 120000,
+    "average_transaction": 8000,
+    "credit_score": 780,
+    "risk_profile": "Conservative"
+  },
+  "transaction": {
+    "amount": 15000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "UPI",
+    "purpose": "Monthly family support to parents",
+    "recipient": {
+      "name": "Rajesh Sharma",
+      "relationship": "Family",
+      "bank": "State Bank of India",
+      "trusted": true,
+      "transaction_count": 24,
+      "first_added": "2024-01-15"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 8,
+    "risk_level": "Low",
+    "verdict": "Auto-Approve",
+    "risk_factors": [
+      {
+        "factor": "Trusted recipient",
+        "impact": -5,
+        "description": "24 prior transactions with this recipient"
+      },
+      {
+        "factor": "Family relationship",
+        "impact": -3,
+        "description": "Recipient is marked as family"
+      },
+      {
+        "factor": "Normal amount",
+        "impact": 0,
+        "description": "Within 2x of average transaction amount"
+      }
+    ]
+  },
+  "expected_explanation": "This is a routine transfer to a trusted family member. The amount is within your normal range, and you have 24 previous transactions with this recipient. No risk indicators detected.",
+  "expected_conversation": null,
+  "expected_decision": "auto_approved"
+}

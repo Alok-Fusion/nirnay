@@ -1,0 +1,42 @@
+{
+  "scenario_id": "salary_credit",
+  "display_name": "Salary Credit — Monthly Payroll",
+  "description": "Regular monthly salary deposit from employer. Zero risk. Demonstrates credit transaction handling.",
+  "icon": "account_balance_wallet",
+  "risk_category": "Safe",
+  "customer": {
+    "customer_id": "DEMO-CUS-002",
+    "full_name": "Priya Patel",
+    "age": 28,
+    "occupation": "Data Scientist",
+    "city": "Mumbai",
+    "monthly_income": 150000,
+    "average_transaction": 12000,
+    "credit_score": 810,
+    "risk_profile": "Moderate"
+  },
+  "transaction": {
+    "amount": 150000,
+    "currency": "INR",
+    "category": "Salary",
+    "payment_channel": "NEFT",
+    "purpose": "Monthly salary - June 2026",
+    "recipient": {
+      "name": "TechCorp Solutions Pvt Ltd",
+      "relationship": "Business",
+      "bank": "HDFC Bank",
+      "trusted": true,
+      "transaction_count": 18,
+      "first_added": "2025-01-01"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 3,
+    "risk_level": "Low",
+    "verdict": "Auto-Approve",
+    "risk_factors": []
+  },
+  "expected_explanation": "Regular salary credit from known employer. No risk indicators.",
+  "expected_conversation": null,
+  "expected_decision": "auto_approved"
+}

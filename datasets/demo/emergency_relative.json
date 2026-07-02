@@ -1,0 +1,94 @@
+{
+  "scenario_id": "emergency_relative",
+  "display_name": "Emergency Relative — Fake Accident Claim",
+  "description": "Caller claims customer's son was in an accident and needs immediate hospital payment.",
+  "icon": "local_hospital",
+  "risk_category": "High Risk",
+  "customer": {
+    "customer_id": "DEMO-CUS-010",
+    "full_name": "Meera Iyer",
+    "age": 55,
+    "occupation": "Government Officer",
+    "city": "Chennai",
+    "monthly_income": 65000,
+    "average_transaction": 5000,
+    "credit_score": 730,
+    "risk_profile": "Conservative"
+  },
+  "transaction": {
+    "amount": 150000,
+    "currency": "INR",
+    "category": "Transfer",
+    "payment_channel": "IMPS",
+    "purpose": "Emergency hospital payment for son's accident - doctor said surgery needed immediately",
+    "recipient": {
+      "name": "Dr. Venkat",
+      "relationship": "Unknown",
+      "bank": "Canara Bank",
+      "trusted": false,
+      "transaction_count": 0,
+      "first_added": "2026-06-30"
+    }
+  },
+  "expected_risk": {
+    "risk_score": 73,
+    "risk_level": "High",
+    "verdict": "Trigger Agentic Conversation",
+    "risk_factors": [
+      {
+        "factor": "Emergency scam pattern",
+        "impact": 25,
+        "description": "Fake medical emergency involving family member"
+      },
+      {
+        "factor": "Extreme urgency",
+        "impact": 18,
+        "description": "Pressure for immediate payment"
+      },
+      {
+        "factor": "Large amount to unknown",
+        "impact": 15,
+        "description": "₹1,50,000 to brand new recipient"
+      },
+      {
+        "factor": "Personal account",
+        "impact": 10,
+        "description": "Hospital payments go to hospital accounts, not personal accounts"
+      },
+      {
+        "factor": "Amount deviation",
+        "impact": 5,
+        "description": "30x your average transaction"
+      }
+    ]
+  },
+  "expected_explanation": "This transaction shows indicators of an emergency relative scam. Scammers create panic by claiming a family member is in danger and demand immediate payment to personal accounts instead of hospital accounts.",
+  "expected_conversation": [
+    {
+      "turn": 1,
+      "speaker": "Agent",
+      "message": "I understand this feels urgent, but I need to verify a few things for your safety. Have you directly contacted your son to confirm the accident?"
+    },
+    {
+      "turn": 2,
+      "speaker": "Customer",
+      "message": "The doctor said he's in surgery and can't talk. They told me to transfer immediately."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "message": "I need to point out something important: legitimate hospital payments go to the hospital's institutional account, not a personal account named 'Dr. Venkat'. Can you call your son's phone directly right now?"
+    },
+    {
+      "turn": 4,
+      "speaker": "Customer",
+      "message": "Let me try... He picked up! He says he's fine and at work!"
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "message": "I'm glad your son is safe. This was a scam. The caller exploited your parental concern to create panic. Please block the number that called you and report it to the cyber crime helpline (1930). Your transaction has been cancelled."
+    }
+  ],
+  "expected_decision": "user_cancelled"
+}
