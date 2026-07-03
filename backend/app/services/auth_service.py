@@ -42,3 +42,31 @@ class AuthService:
             "token_type": "bearer",
             "expires_in": 1800 # 30 mins
         }
+        
+    @staticmethod
+    def refresh(db: Session, token: str):
+        from backend.app.core.security import decode_token
+        try:
+            payload = decode_token(token)
+            if payload.type != "refresh":
+                raise CredentialsException("Invalid token type")
+            user_id = payload.sub
+            if not user_id:
+                raise CredentialsException("Invalid token")
+                
+            user = user_repo.get(db, id=int(user_id))
+            if not user:
+                raise CredentialsException("User not found")
+                
+            access_token = create_access_token(subject=user.id)
+            refresh_token = create_refresh_token(subject=user.id)
+            
+            return {
+                "access_token": access_token,
+                "refresh_token": refresh_token,
+                "token_type": "bearer",
+                "expires_in": 1800
+            }
+        except Exception as e:
+            logger.error(f"Refresh failed: {e}")
+            raise CredentialsException("Could not validate credentials")

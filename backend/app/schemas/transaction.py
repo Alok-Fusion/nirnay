@@ -18,6 +18,10 @@ class TransactionResponse(BaseModel):
     type: TransactionType
     created_at: datetime
     
+    # Optional fields for dashboard display
+    recipientName: Optional[str] = None
+    aiRiskScore: Optional[float] = None
+    
     class Config:
         from_attributes = True
 

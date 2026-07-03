@@ -1,9 +1,11 @@
-import { Box, Typography, Grid, Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Chip } from '@mui/material';
-import { Shield, Gavel } from '@mui/icons-material';
-import { mockTransactions } from '../../services/mockData';
+import { Box, Typography, Grid, Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Chip, Button } from '@mui/material';
+import { Shield, Person } from '@mui/icons-material';
+import { useTransactions } from '../../services/apiHooks';
 
 export const AdminDashboard = () => {
-  const highRiskTxs = mockTransactions.filter(t => t.aiRiskScore > 75);
+  const { data: transactions = [], isLoading } = useTransactions();
+  // Filter for high risk (simulated threshold or real status)
+  const flaggedTransactions = transactions.filter((tx: any) => tx.aiRiskScore > 50 || tx.status === 'REJECTED');
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
@@ -20,7 +22,7 @@ export const AdminDashboard = () => {
           <Card>
             <CardContent>
               <Typography color="text.secondary" gutterBottom>Active High-Risk Cases</Typography>
-              <Typography variant="h3" color="error.main" sx={{ fontWeight: "700" }}>{highRiskTxs.length}</Typography>
+              <Typography variant="h3" color="error.main" sx={{ fontWeight: "700" }}>{flaggedTransactions.length}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -49,36 +51,48 @@ export const AdminDashboard = () => {
             <TableRow>
               <TableCell sx={{ fontWeight: 600 }}>Case ID</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>User</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>Amount</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Risk Score</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {highRiskTxs.map(tx => (
-              <TableRow key={tx.id}>
-                <TableCell>{tx.id}</TableCell>
-                <TableCell>{tx.recipientName}</TableCell>
+            {isLoading ? (
+              <TableRow><TableCell colSpan={6}>Loading...</TableCell></TableRow>
+            ) : transactions.map((tx: any) => (
+              <TableRow key={tx.id} hover>
+                <TableCell sx={{ fontFamily: 'monospace' }}>{tx.id}</TableCell>
                 <TableCell>
-                  <Typography sx={{ fontWeight: "700" }} color="error.main">{tx.aiRiskScore}/100</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Person fontSize="small" color="action" />
+                    <Typography variant="body2">{tx.recipientName}</Typography>
+                  </Box>
+                </TableCell>
+                <TableCell>${tx.amount.toLocaleString()}</TableCell>
+                <TableCell>
+                  <Chip 
+                    label={tx.aiRiskScore} 
+                    size="small" 
+                    color={tx.aiRiskScore > 50 ? "error" : "success"}
+                    variant="outlined"
+                  />
                 </TableCell>
                 <TableCell>
-                  <Chip label="Awaiting Review" color="warning" size="small" />
+                  <Chip 
+                    label={tx.status} 
+                    size="small" 
+                    color={tx.status === 'COMPLETED' ? "success" : tx.status === 'REJECTED' ? "error" : "warning"}
+                  />
                 </TableCell>
                 <TableCell>
-                  <Chip icon={<Gavel />} label="Review Case" variant="outlined" clickable />
+                  <Button size="small" variant="outlined">Review</Button>
                 </TableCell>
               </TableRow>
             ))}
-            {highRiskTxs.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={5} align="center">No active cases.</TableCell>
-              </TableRow>
-            )}
           </TableBody>
         </Table>
       </Card>
     </Box>
   );
 };
-

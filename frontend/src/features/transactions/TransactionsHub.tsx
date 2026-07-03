@@ -1,13 +1,23 @@
-﻿import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, TextField, InputAdornment, IconButton, Paper } from '@mui/material';
-import { Search, FilterList, Download, CheckCircle, Warning } from '@mui/icons-material';
-import { mockTransactions } from '../../services/mockData';
+import { useState, useMemo } from 'react';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, TextField, InputAdornment, IconButton, Paper } from '@mui/material';
+import { Person, Search, FilterList, Download, CheckCircle, Warning, Block } from '@mui/icons-material';
+import { useTransactions } from '../../services/apiHooks';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 const MotionTableRow = motion(TableRow);
 
 export const TransactionsHub = () => {
+  const { data: transactions = [], isLoading } = useTransactions();
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter((tx: any) => 
+      tx.recipientName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      tx.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [transactions, searchTerm]);
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
@@ -20,6 +30,8 @@ export const TransactionsHub = () => {
           <TextField 
             size="small" 
             placeholder="Search transactions..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: <InputAdornment position="start"><Search /></InputAdornment>,
@@ -37,50 +49,52 @@ export const TransactionsHub = () => {
           <TableHead sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
             <TableRow>
               <TableCell sx={{ fontWeight: 600 }}>ID</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Recipient</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Amount</TableCell>
-              <TableCell sx={{ fontWeight: 600 }}>AI Decision</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>AI Risk Score</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {mockTransactions.map((tx, idx) => {
-              const isBlocked = tx.status === 'BLOCKED';
-              return (
-                <MotionTableRow 
-                  key={tx.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  hover
-                  sx={{ cursor: 'pointer', '&:last-child td, &:last-child th': { border: 0 } }}
-                  onClick={() => navigate(`/decision/${tx.id}`)}
-                >
-                  <TableCell>{tx.id}</TableCell>
-                  <TableCell>{new Date(tx.date).toLocaleDateString()}</TableCell>
-                  <TableCell sx={{ fontWeight: 500 }}>{tx.recipientName}</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>${tx.amount.toLocaleString()}</TableCell>
-                  <TableCell>
-                    <Chip 
-                      icon={isBlocked ? <Warning fontSize="small" /> : <CheckCircle fontSize="small" />}
-                      label={isBlocked ? "High Risk" : "Approved"} 
-                      size="small"
-                      sx={{ 
-                        bgcolor: isBlocked ? 'error.light' : 'success.light',
-                        color: isBlocked ? 'error.dark' : 'success.dark',
-                        fontWeight: 600
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" sx={{ color: isBlocked ? 'error.main' : 'success.main', fontWeight: 600 }}>
-                      {tx.status}
-                    </Typography>
-                  </TableCell>
-                </MotionTableRow>
-              );
-            })}
+            {isLoading ? (
+              <TableRow><TableCell colSpan={6} align="center">Loading transactions...</TableCell></TableRow>
+            ) : filteredTransactions.length === 0 ? (
+              <TableRow><TableCell colSpan={6} align="center">No transactions found.</TableCell></TableRow>
+            ) : filteredTransactions.map((tx: any) => (
+              <MotionTableRow 
+                key={tx.id} 
+                hover 
+                onClick={() => navigate(`/decision/${tx.id}`)}
+                sx={{ cursor: 'pointer' }}
+              >
+                <TableCell sx={{ fontFamily: 'monospace' }}>{tx.id}</TableCell>
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Person fontSize="small" color="action" />
+                    <Typography variant="body2">{tx.recipientName}</Typography>
+                  </Box>
+                </TableCell>
+                <TableCell>${tx.amount.toLocaleString()}</TableCell>
+                <TableCell>{new Date(tx.created_at).toLocaleString()}</TableCell>
+                <TableCell>
+                  <Chip 
+                    label={tx.aiRiskScore} 
+                    size="small" 
+                    color={tx.aiRiskScore > 50 ? "error" : "success"}
+                    variant="outlined"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Chip 
+                    label={tx.status} 
+                    size="small" 
+                    icon={tx.status === 'COMPLETED' ? <CheckCircle /> : tx.status === 'REJECTED' ? <Block /> : <Warning />}
+                    color={tx.status === 'COMPLETED' ? "success" : tx.status === 'REJECTED' ? "error" : "warning"}
+                  />
+                </TableCell>
+              </MotionTableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,7 +1,8 @@
-﻿import { Box, Typography, Card, CardContent, Grid, Button, Divider, LinearProgress, Chip } from '@mui/material';
-import { Shield, ArrowBack, VerifiedUser, Policy, Description, Gavel } from '@mui/icons-material';
+import { Box, Typography, Card, CardContent, Grid, Button, Divider, LinearProgress, Chip } from '@mui/material';
+import { Shield, ArrowBack, Policy } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { mockAiAnalysis, mockTransactions } from '../../services/mockData';
+import { useTransactions, useRiskReport } from '../../services/apiHooks';
+import { CircularProgress } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const MotionCard = motion(Card);
@@ -9,10 +10,29 @@ const MotionCard = motion(Card);
 export const DecisionDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  
+  const { data: transactions = [], isLoading: txLoading } = useTransactions();
+  // Using explicit string or ignoring if not ready
+  const { data: riskReport, isLoading: riskLoading } = useRiskReport(id || '');
 
-  // Find transaction from mock data or default
-  const transaction = mockTransactions.find(t => t.id === id) || mockTransactions[1]; 
-  const isBlocked = transaction.status === 'BLOCKED';
+  if (txLoading || riskLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Find transaction
+  const transaction = transactions.find((t: any) => String(t.id) === id); 
+  
+  if (!transaction) {
+    return <Box sx={{ py: 4, textAlign: 'center' }}><Typography>Transaction not found.</Typography></Box>;
+  }
+
+  const isBlocked = transaction.status === 'REJECTED' || transaction.status === 'BLOCKED';
+  const riskScore = riskReport?.risk_score || transaction.aiRiskScore || 0;
+  const confidence = riskReport?.confidence || 0;
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: 4 }}>
@@ -30,8 +50,8 @@ export const DecisionDetails = () => {
             <Shield sx={{ fontSize: 32, color: isBlocked ? 'error.dark' : 'success.dark' }} />
           </Box>
           <Box>
-            <Typography variant="h4" sx={{ fontWeight: 700 }}>Decision Intelligence</Typography>
-            <Typography variant="body1" color="text.secondary">Analysis for Transaction {transaction.id}</Typography>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>{transaction.recipientName || 'Unknown Recipient'}</Typography>
+              <Typography variant="body1" color="text.secondary">ID: {transaction.id} • {new Date(transaction.created_at).toLocaleString()}</Typography>
           </Box>
         </Box>
         <Chip 
@@ -46,21 +66,29 @@ export const DecisionDetails = () => {
         <Grid size={{ xs: 12, md: 4 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} sx={{ height: '100%' }}>
             <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <VerifiedUser color="primary" />
-                <Typography variant="h6">AI Confidence</Typography>
+              <Box sx={{ mb: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Typography variant="body2" color="text.secondary">AI Risk Assessment</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }} color={isBlocked ? 'error.main' : 'success.main'}>
+                    {riskScore}/100
+                  </Typography>
+                </Box>
+                <LinearProgress 
+                  variant="determinate" 
+                  value={riskScore} 
+                  color={isBlocked ? "error" : "success"}
+                  sx={{ height: 8, borderRadius: 4 }}
+                />
               </Box>
-              <Typography variant="h2" color="primary.main" sx={{ fontWeight: 800, mb: 1 }}>
-                {mockAiAnalysis.confidence}%
-              </Typography>
-              <LinearProgress 
-                variant="determinate" 
-                value={mockAiAnalysis.confidence} 
-                sx={{ height: 8, borderRadius: 4, mb: 2, bgcolor: 'rgba(0,0,0,0.05)' }} 
-              />
-              <Typography variant="body2" color="text.secondary">
-                The model is highly confident in this assessment based on historical patterns and current context.
-              </Typography>
+
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                <Typography color="text.secondary">Confidence Level</Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>{confidence}%</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography color="text.secondary">Status</Typography>
+                <Typography sx={{ fontWeight: 'bold' }} color={isBlocked ? 'error.main' : 'success.main'}>{transaction.status}</Typography>
+              </Box>
             </CardContent>
           </MotionCard>
         </Grid>
@@ -73,9 +101,9 @@ export const DecisionDetails = () => {
                 <Policy />
                 <Typography variant="h6">Policy & Compliance</Typography>
               </Box>
-              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                {mockAiAnalysis.policyAction}
-              </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                  {riskReport?.recommended_action || "Standard processing rules applied."}
+                </Typography>
               <Divider sx={{ borderColor: 'rgba(255,255,255,0.2)', my: 2 }} />
               <Typography variant="body1" sx={{ opacity: 0.9 }}>
                 {isBlocked 
@@ -90,26 +118,31 @@ export const DecisionDetails = () => {
         <Grid size={{ xs: 12 }}>
           <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: 700 }}>Evidence & Reasoning</Typography>
           <Grid container spacing={3}>
-            {mockAiAnalysis.evidence.map((ev, idx) => (
-              <Grid size={{ xs: 12, sm: 6 }} key={ev.id}>
-                <MotionCard 
-                  initial={{ opacity: 0, scale: 0.95 }} 
-                  animate={{ opacity: 1, scale: 1 }} 
-                  transition={{ delay: 0.2 + (idx * 0.1) }}
-                  sx={{ borderLeft: '4px solid', borderColor: ev.type === 'WARNING' ? 'warning.main' : 'success.main' }}
-                >
-                  <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                      {ev.type === 'WARNING' ? <Gavel color="warning" /> : <Description color="success" />}
-                      <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{ev.title}</Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      {ev.description}
-                    </Typography>
-                  </CardContent>
-                </MotionCard>
-              </Grid>
-            ))}
+            <Grid size={{ xs: 12 }}>
+              <MotionCard 
+                initial={{ opacity: 0, scale: 0.95 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                transition={{ delay: 0.2 }}
+              >
+                <CardContent sx={{ p: 4 }}>
+                  <Typography variant="h6" sx={{ mb: 3 }}>Decision Evidence</Typography>
+                  
+                  <Box sx={{ borderLeft: '2px solid rgba(0,0,0,0.1)', pl: 3, mb: 4 }}>
+                    {riskReport?.reason_codes ? riskReport.reason_codes.map((code: string, idx: number) => (
+                      <Box key={idx} sx={{ position: 'relative', mb: 3 }}>
+                        <Box sx={{ position: 'absolute', left: -33, top: 2, bgcolor: 'background.paper', width: 14, height: 14, borderRadius: '50%', border: '2px solid', borderColor: 'warning.main' }} />
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Reason Code</Typography>
+                        <Typography variant="body2" color="text.secondary">{code}</Typography>
+                      </Box>
+                    )) : (
+                      <Typography variant="body2" color="text.secondary">No detailed evidence recorded.</Typography>
+                    )}
+                  </Box>
+
+                  <Divider sx={{ my: 3 }} />
+                </CardContent>
+              </MotionCard>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

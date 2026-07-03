@@ -10,8 +10,9 @@ from backend.app.repositories.risk_event_repo import risk_event_repo
 from backend.app.services.ml_service import ml_service
 from backend.app.core.exceptions import BadRequestException, NotFoundException
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, List
 from datetime import datetime
+from backend.app.ai.orchestrator.graph import create_decision_graph
 
 logger = logging.getLogger(__name__)
 
@@ -67,39 +68,85 @@ class TransactionService:
         transaction.status = TransactionState.RISK_ANALYSIS
         db.commit()
         
-        # 5. Call ML Service
-        ml_result = ml_service.analyze_transaction(transaction_data)
+        # 5. Call AI LangGraph Orchestrator
+        graph = create_decision_graph()
+        initial_state = {
+            "transaction_id": str(transaction.id),
+            "raw_transaction_data": transaction_data,
+            "raw_customer_id": user_id,
+            "messages": [],
+            "current_agent": "ContextIntelligenceAgent",
+            "next_agent": "ContextIntelligenceAgent"
+        }
+        
+        config = {"configurable": {"thread_id": str(transaction.id)}}
+        
+        try:
+            result = graph.invoke(initial_state, config=config)
+        except Exception as e:
+            logger.error(f"LangGraph execution failed: {e}")
+            result = initial_state
+            result["decision_result"] = {"final_decision": "ESCALATE_TO_HUMAN", "decision_reason": "AI System Error"}
+        
+        context_data = result.get("context", {})
+        ml_risk = context_data.get("ml_risk", {}) if isinstance(context_data, dict) else (context_data.ml_risk.model_dump() if hasattr(context_data, 'ml_risk') else {})
+        decision_result = result.get("decision_result", {})
+        evidence_report = result.get("evidence", {})
+        
+        if not isinstance(ml_risk, dict): ml_risk = {}
+        if not isinstance(decision_result, dict): decision_result = {}
+        
+        # Extract evidence array for frontend
+        evidence_list = []
+        if isinstance(evidence_report, dict):
+            evidences = evidence_report.get("evidences", [])
+            for ev in evidences:
+                if isinstance(ev, dict):
+                    evidence_list.append(ev)
+                else:
+                    evidence_list.append(ev.model_dump())
+        elif hasattr(evidence_report, "evidences"):
+            for ev in evidence_report.evidences:
+                evidence_list.append(ev.model_dump())
+                
+        # Combine risk evaluation for frontend response
+        risk_evaluation = {
+            "risk_score": ml_risk.get("risk_score", 0.0),
+            "risk_level": ml_risk.get("risk_level", "Unknown"),
+            "confidence": ml_risk.get("confidence", 0.0),
+            "recommended_action": decision_result.get("final_decision", "Proceed"),
+            "evidence": evidence_list
+        }
         
         # 6. Create Risk Event
         risk_event = risk_event_repo.create(db, obj_in={
             "transaction_id": transaction.id,
-            "risk_score": ml_result.get("risk_score", 0),
-            "risk_level": ml_result.get("risk_level", "Unknown"),
-            "confidence": ml_result.get("confidence", 0),
-            "recommended_action": ml_result.get("recommended_action", "Proceed")
+            "risk_score": risk_evaluation["risk_score"],
+            "risk_level": risk_evaluation["risk_level"],
+            "confidence": risk_evaluation["confidence"],
+            "recommended_action": decision_result.get("final_decision", "Proceed")
         })
         db.commit()
         
         # 7. Decide Next State based on ML output
-        action = ml_result.get("recommended_action", "Proceed")
-        if action == "Proceed":
+        decision = decision_result.get("final_decision", "APPROVE_TRANSACTION")
+        if decision == "APPROVE_TRANSACTION":
             transaction.status = TransactionState.APPROVED
             # Execute actual money movement logic here
             sender_account.balance -= request.amount
-            message = "Transfer Approved"
-            # Next would be COMPLETED
-        elif action == "Explain" or action == "Start Conversation":
+            message = decision_result.get("decision_reason", "Transfer Approved")
+        elif decision in ["REQUEST_MORE_INFORMATION", "ESCALATE_TO_HUMAN"]:
             transaction.status = TransactionState.AWAITING_CUSTOMER_DECISION
-            message = "Transfer requires confirmation"
+            message = decision_result.get("decision_reason", "Transfer requires confirmation")
         else:
             transaction.status = TransactionState.REJECTED
-            message = "Transfer Rejected due to High Risk"
+            message = decision_result.get("decision_reason", "Transfer Rejected due to High Risk")
             
         db.commit()
         db.refresh(transaction)
         
         return TransferDecisionResponse(
             transaction=TransactionResponse.model_validate(transaction),
-            risk_evaluation=ml_result,
+            risk_evaluation=risk_evaluation,
             message=message
         )

@@ -12,3 +12,14 @@ router = APIRouter()
 @router.get('/me', response_model=UserResponse)
 def get_user_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.get('/security')
+def get_user_security(current_user: User = Depends(get_current_user)):
+    # Calculate mock metrics based on real user data or return static values for MVP
+    return {
+        "overallScore": 92,
+        "trustedDevices": 1,
+        "blockedAttempts": 0,
+        "lastLogin": current_user.created_at.isoformat(),
+        "activeAlerts": 0
+    }

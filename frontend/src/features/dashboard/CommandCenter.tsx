@@ -1,13 +1,22 @@
-﻿import { Box, Typography, Grid, Card, CardContent, Button, Stack, Chip, Divider } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Button, Stack, Chip, Divider } from '@mui/material';
 import { Shield, ArrowForward, CheckCircle, Warning } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { mockTransactions, mockSecurityMetrics } from '../../services/mockData';
 import { useNavigate } from 'react-router-dom';
+import { useTransactions, useSecurityMetrics } from '../../services/apiHooks';
 
 const MotionCard = motion(Card);
 
 export const CommandCenter = () => {
   const navigate = useNavigate();
+  const { data: transactions = [], isLoading } = useTransactions();
+  const { data: securityMetrics } = useSecurityMetrics();
+
+  // Fallback to defaults while loading
+  const metrics = securityMetrics || {
+    overallScore: 0,
+    trustedDevices: 0,
+    blockedAttempts: 0
+  };
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
@@ -62,23 +71,23 @@ export const CommandCenter = () => {
                 <Typography variant="h6">Security Pulse</Typography>
               </Box>
               
-              <Box sx={{ textAlign: 'center', py: 2 }}>
-                <Typography variant="h2" color="secondary.main" sx={{ fontWeight: 800 }}>
-                  {mockSecurityMetrics.overallScore}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">Excellent Protection</Typography>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
               <Stack spacing={2}>
+                <Box sx={{ textAlign: 'center', py: 2 }}>
+                  <Typography variant="body2" color="text.secondary">Overall Security Score</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{metrics.overallScore} / 100</Typography>
+                </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant="body2" color="text.secondary">Active Threats</Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>0 Detected</Typography>
+                  <Typography variant="body2" color="text.secondary">Active Alerts</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }} color="success.main">None</Typography>
+                </Box>
+                <Divider />
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography variant="body2" color="text.secondary">Trusted Devices</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{metrics.trustedDevices}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography variant="body2" color="text.secondary">Blocked Attempts</Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{mockSecurityMetrics.blockedAttempts}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{metrics.blockedAttempts}</Typography>
                 </Box>
               </Stack>
             </CardContent>
@@ -89,7 +98,9 @@ export const CommandCenter = () => {
         <Grid size={{ xs: 12 }}>
           <Typography variant="h5" sx={{ mt: 2, mb: 3 }}>Recent AI Decisions</Typography>
           <Stack spacing={2}>
-            {mockTransactions.map((tx, idx) => (
+            {isLoading ? (
+              <Typography>Loading transactions...</Typography>
+            ) : transactions.slice(0, 5).map((tx: any, idx: number) => (
               <MotionCard 
                 key={tx.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -111,7 +122,7 @@ export const CommandCenter = () => {
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>{tx.recipientName}</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {new Date(tx.date).toLocaleDateString()} â€¢ ID: {tx.id}
+                        {new Date(tx.created_at).toLocaleDateString()} • ID: {tx.id}
                       </Typography>
                     </Box>
                   </Box>

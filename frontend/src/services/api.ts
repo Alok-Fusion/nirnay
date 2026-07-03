@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
@@ -23,23 +23,35 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     
+    // Check if network error (Offline)
+    if (!error.response && error.request) {
+      console.warn("Network error or offline mode.");
+      // Optional: Handle offline caching strategy here if needed
+      return Promise.reject(error);
+    }
+    
     // If 401 Unauthorized and we haven't retried yet
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       
       try {
-        // Attempt to refresh token (mock endpoint for now)
-        // const { data } = await axios.post('/auth/refresh', { refresh: localStorage.getItem('refreshToken') });
-        // localStorage.setItem('accessToken', data.accessToken);
-        // api.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
-        // return api(originalRequest);
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) throw new Error("No refresh token");
         
-        // If refresh fails or not implemented, logout
+        // Attempt to refresh token
+        const { data } = await axios.post(`${api.defaults.baseURL}/auth/refresh`, { refresh_token: refreshToken });
+        
+        localStorage.setItem('accessToken', data.access_token);
+        localStorage.setItem('refreshToken', data.refresh_token);
+        
+        originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`;
+        return api(originalRequest);
+        
+      } catch (refreshError) {
+        // If refresh fails, logout
         console.warn("Session expired. Logging out.");
         localStorage.removeItem('accessToken');
-        window.location.href = '/auth/login';
-      } catch (refreshError) {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         window.location.href = '/auth/login';
         return Promise.reject(refreshError);
       }

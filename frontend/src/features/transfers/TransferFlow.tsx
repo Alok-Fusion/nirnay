@@ -1,27 +1,64 @@
-﻿import { Box, Typography, Button, TextField, MenuItem, Stepper, Step, StepLabel, CircularProgress, Card } from '@mui/material';
+import { Box, Typography, Button, TextField, MenuItem, Stepper, Step, StepLabel, CircularProgress, Card } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { mockRecipients, mockAiAnalysis } from '../../services/mockData';
+import { useRecipients, useTransfer } from '../../services/apiHooks';
+import { useAuth } from '../../contexts';
 import { Lock, CheckCircle, SupportAgent } from '@mui/icons-material';
 
 const MotionBox = motion(Box);
 
 export const TransferFlow = () => {
+  const { data: recipients = [], isLoading: loadingRecipients } = useRecipients();
+  const transferMutation = useTransfer();
+  const { stepUpAuth } = useAuth();
+
   const [activeStep, setActiveStep] = useState(0);
-  const [recipient, setRecipient] = useState('');
+  const [recipientId, setRecipientId] = useState('');
   const [amount, setAmount] = useState('');
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [transferResult, setTransferResult] = useState<any>(null);
 
   const steps = ['Details', 'NIRNAY Review', 'Confirm'];
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (activeStep === 0) {
-      setActiveStep(1);
-      setIsAnalyzing(true);
-      setTimeout(() => setIsAnalyzing(false), 3000); // Simulate AI analysis time
+      if (!recipientId || !amount) return;
+      
+      setActiveStep(1); // Go to Analyzing state
+      
+      try {
+        // Find the selected recipient to get the account number
+        const selectedRecipient = recipients.find((r: any) => r.id === recipientId);
+        
+        // Execute real transfer which invokes the AI engine
+        const result = await transferMutation.mutateAsync({
+          recipient_account_number: selectedRecipient?.account_number || "0000",
+          amount: parseFloat(amount),
+          currency: 'USD'
+        });
+        
+        setTransferResult(result);
+        setActiveStep(2); // Analysis complete, show review
+      } catch (error) {
+        console.error("Transfer failed", error);
+        // Fallback to error state or retry (omitted for brevity)
+        setActiveStep(0);
+      }
     } else {
       setActiveStep(activeStep + 1);
     }
+  };
+
+  const handleConfirm = async () => {
+    // If step-up auth is required based on AI recommendation
+    if (transferResult?.risk_evaluation?.recommended_action !== "Proceed") {
+      const authSuccess = await stepUpAuth();
+      if (!authSuccess) return;
+    }
+    
+    // In a real system, we might have a separate /confirm endpoint.
+    // For now, the MVP /transfer handles everything if we consider it "approved".
+    // We navigate to dashboard on success.
+    window.location.href = '/dashboard';
   };
 
   return (
@@ -53,12 +90,13 @@ export const TransferFlow = () => {
                 select
                 label="Select Recipient"
                 fullWidth
-                value={recipient}
-                onChange={(e) => setRecipient(e.target.value)}
+                value={recipientId}
+                onChange={(e) => setRecipientId(e.target.value)}
+                disabled={loadingRecipients}
               >
-                {mockRecipients.map((rec) => (
+                {recipients.map((rec: any) => (
                   <MenuItem key={rec.id} value={rec.id}>
-                    {rec.name} ({rec.accountMasked})
+                    {rec.name} ({rec.bank_code})
                   </MenuItem>
                 ))}
               </TextField>
@@ -75,7 +113,7 @@ export const TransferFlow = () => {
                 variant="contained" 
                 size="large" 
                 onClick={handleNext}
-                disabled={!recipient || !amount}
+                disabled={!recipientId || !amount || transferMutation.isPending}
                 sx={{ mt: 2 }}
               >
                 Continue to Review
@@ -90,7 +128,7 @@ export const TransferFlow = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, x: 20 }}
             >
-              {isAnalyzing ? (
+              {transferMutation.isPending ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 8, gap: 3 }}>
                   <CircularProgress size={60} thickness={4} />
                   <Typography variant="h6" color="primary">NIRNAY AI is analyzing this transaction...</Typography>
@@ -102,15 +140,18 @@ export const TransferFlow = () => {
                     <SupportAgent sx={{ fontSize: 40, color: 'primary.main' }} />
                     <Box>
                       <Typography variant="h6" color="primary.main">Analysis Complete</Typography>
-                      <Typography variant="body2" color="text.secondary">Risk Score: {mockAiAnalysis.riskScore}/100 â€¢ Confidence: {mockAiAnalysis.confidence}%</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Risk Score: {transferResult?.risk_evaluation?.risk_score || 0}/100 • 
+                        Confidence: {transferResult?.risk_evaluation?.confidence || 0}%
+                      </Typography>
                     </Box>
                   </Box>
 
                   <Typography variant="h6" sx={{ mb: 2 }}>Decision Timeline</Typography>
                   <Box sx={{ pl: 2, borderLeft: '2px solid rgba(0,0,0,0.1)', mb: 4 }}>
-                    {mockAiAnalysis.evidence.map((ev, idx) => (
+                    {(transferResult?.risk_evaluation?.evidence || []).map((ev: any, idx: number) => (
                       <MotionBox 
-                        key={ev.id}
+                        key={idx}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.2 }}
@@ -122,10 +163,13 @@ export const TransferFlow = () => {
                           borderRadius: '50%', border: '2px solid',
                           borderColor: ev.type === 'POSITIVE' ? 'success.main' : 'warning.main'
                         }} />
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{ev.title}</Typography>
-                        <Typography variant="body2" color="text.secondary">{ev.description}</Typography>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{ev.title || ev.action || 'AI Decision Step'}</Typography>
+                        <Typography variant="body2" color="text.secondary">{ev.description || ev.details}</Typography>
                       </MotionBox>
                     ))}
+                    {!(transferResult?.risk_evaluation?.evidence?.length) && (
+                        <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>Analysis completed securely.</Typography>
+                    )}
                   </Box>
 
                   <Box sx={{ bgcolor: '#F8F9FA', p: 3, borderRadius: 2, mb: 4 }}>
@@ -133,7 +177,7 @@ export const TransferFlow = () => {
                       AI Recommendation
                     </Typography>
                     <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {mockAiAnalysis.recommendation}
+                      {transferResult?.risk_evaluation?.recommended_action || transferResult?.message}
                     </Typography>
                   </Box>
 
@@ -144,7 +188,7 @@ export const TransferFlow = () => {
                       color="primary" 
                       size="large" 
                       startIcon={<Lock />}
-                      onClick={handleNext}
+                      onClick={handleConfirm}
                       sx={{ flex: 1 }}
                     >
                       Authenticate & Confirm
@@ -167,7 +211,7 @@ export const TransferFlow = () => {
               <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                 ${amount} has been securely transferred.
               </Typography>
-              <Button variant="outlined" onClick={() => { setActiveStep(0); setAmount(''); setRecipient(''); }}>
+              <Button variant="outlined" onClick={() => { setActiveStep(0); setAmount(''); setRecipientId(''); }}>
                 Start New Transfer
               </Button>
             </MotionBox>

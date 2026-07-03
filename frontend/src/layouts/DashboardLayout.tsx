@@ -1,7 +1,7 @@
-﻿import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, AppBar, Toolbar, IconButton, Avatar, ListItemButton } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, AppBar, Toolbar, IconButton, Avatar, ListItemButton } from '@mui/material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { Home, SwapHoriz, Shield, PieChart, Settings, Menu } from '@mui/icons-material';
-import { useState } from 'react';
+import { Home, SwapHoriz, Shield, PieChart, Settings, Menu, WifiOff, BugReport } from '@mui/icons-material';
+import { useState, useEffect } from 'react';
 
 const drawerWidth = 260;
 
@@ -17,8 +17,29 @@ const menuItems = [
 
 export const DashboardLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(() => localStorage.getItem('nirnay_demo_mode') === 'true');
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  const handleDemoModeToggle = () => {
+    const newVal = !isDemoMode;
+    localStorage.setItem('nirnay_demo_mode', newVal.toString());
+    setIsDemoMode(newVal);
+    window.location.reload(); // Reload to refresh queries with/without demo data
+  };
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
@@ -74,11 +95,27 @@ export const DashboardLayout = () => {
           borderBottom: '1px solid rgba(0,0,0,0.05)',
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ display: 'flex', gap: 2 }}>
           <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' }, color: 'text.primary' }}>
             <Menu />
           </IconButton>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1 }}>
+            {!isOnline && (
+              <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, bgcolor: 'warning.light', color: 'warning.dark', px: 2, py: 0.5, borderRadius: 1 }}>
+                <WifiOff fontSize="small" />
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>Offline Mode (Using cached data)</Typography>
+              </Box>
+            )}
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+             <IconButton 
+               onClick={handleDemoModeToggle} 
+               color={isDemoMode ? "primary" : "default"}
+               title={isDemoMode ? "Disable Demo Mode" : "Enable Demo Mode"}
+             >
+               <BugReport />
+             </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
 

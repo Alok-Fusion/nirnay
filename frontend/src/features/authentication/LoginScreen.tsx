@@ -1,17 +1,30 @@
-﻿import { Box, Typography, TextField, Button } from '@mui/material';
+import { useState } from 'react';
+import { Box, Typography, TextField, Button, Alert } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts';
+import { useLogin } from '../../services/apiHooks';
 
 export const LoginScreen = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const loginMutation = useLogin();
+  const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Simulate login
-    login('mock_jwt_token', { id: 'usr_1', name: 'Alok Kumar', email: 'alok@example.com' });
-    navigate('/dashboard');
+    setError('');
+    const data = new FormData(e.currentTarget);
+    const email = data.get('email');
+    const password = data.get('password');
+
+    try {
+      const { tokenData, userData } = await loginMutation.mutateAsync({ email, password });
+      login(tokenData, userData);
+      navigate('/dashboard');
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
+    }
   };
 
   return (
@@ -26,22 +39,26 @@ export const LoginScreen = () => {
       </Typography>
 
       <form onSubmit={handleLogin}>
+        {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
+
         <TextField
           fullWidth
           label="Email Address"
           type="email"
+          name="email"
           variant="outlined"
           sx={{ mb: 3 }}
-          defaultValue="demo@nirnay.ai"
+          defaultValue="alok@example.com"
           required
         />
         <TextField
           fullWidth
           label="Password"
           type="password"
+          name="password"
           variant="outlined"
           sx={{ mb: 4 }}
-          defaultValue="password123"
+          defaultValue="password"
           required
         />
         <Button 
@@ -50,9 +67,10 @@ export const LoginScreen = () => {
           variant="contained" 
           color="primary" 
           size="large"
+          disabled={loginMutation.isPending}
           sx={{ py: 1.5, fontSize: '1.1rem' }}
         >
-          Sign In
+          {loginMutation.isPending ? 'Signing In...' : 'Sign In'}
         </Button>
       </form>
     </motion.div>

@@ -10,7 +10,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (token: string, userData: User) => void;
+  login: (tokenData: { access_token: string, refresh_token: string }, userData: User) => void;
   logout: () => void;
   stepUpAuth: () => Promise<boolean>;
 }
@@ -21,14 +21,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const login = (token: string, userData: User) => {
-    localStorage.setItem('accessToken', token);
+  const login = (tokenData: { access_token: string, refresh_token: string }, userData: User) => {
+    localStorage.setItem('accessToken', tokenData.access_token);
+    localStorage.setItem('refreshToken', tokenData.refresh_token);
     setUser(userData);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setUser(null);
     setIsAuthenticated(false);
   };

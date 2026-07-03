@@ -1,11 +1,21 @@
-﻿import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
 import { Security, Block, Fingerprint, NotificationsActive, CheckCircle } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { mockSecurityMetrics, mockRecipients } from '../../services/mockData';
+import { mockRecipients } from '../../services/mockData';
+import { useSecurityMetrics } from '../../services/apiHooks';
 
 const MotionCard = motion(Card);
 
 export const SecurityCenter = () => {
+  const { data: securityMetrics, isLoading } = useSecurityMetrics();
+  
+  const metrics = securityMetrics || {
+    overallScore: 0,
+    trustedDevices: 0,
+    blockedAttempts: 0,
+    lastLogin: new Date().toISOString(),
+    activeAlerts: 0
+  };
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: 4 }}>
       <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -22,20 +32,31 @@ export const SecurityCenter = () => {
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} sx={{ height: '100%' }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>AI Protection Metrics</Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                <Typography color="text.secondary">Overall Security Score</Typography>
-                <Typography sx={{ fontWeight: 'bold' }} color="secondary.main">{mockSecurityMetrics.overallScore} / 100</Typography>
-              </Box>
-              <Divider sx={{ my: 2 }} />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                <Typography color="text.secondary">Trusted Devices</Typography>
-                <Typography sx={{ fontWeight: 'bold' }}>{mockSecurityMetrics.trustedDevices}</Typography>
-              </Box>
-              <Divider sx={{ my: 2 }} />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography color="text.secondary">Blocked Fraud Attempts (30d)</Typography>
-                <Typography sx={{ fontWeight: 'bold' }} color="error.main">{mockSecurityMetrics.blockedAttempts}</Typography>
-              </Box>
+              {isLoading ? (
+                <Typography>Loading metrics...</Typography>
+              ) : (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Overall Security Score</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }} color="secondary.main">{metrics.overallScore} / 100</Typography>
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Trusted Devices</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }}>{metrics.trustedDevices} active</Typography>
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Blocked Attempts (30d)</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }} color="error.main">{metrics.blockedAttempts}</Typography>
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography color="text.secondary">Last Login</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }}>{new Date(metrics.lastLogin).toLocaleString()}</Typography>
+                  </Box>
+                </>
+              )}
             </CardContent>
           </MotionCard>
         </Grid>
