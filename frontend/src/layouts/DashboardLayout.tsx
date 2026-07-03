@@ -9,8 +9,10 @@ const menuItems = [
   { text: 'Command Center', icon: <Home />, path: '/dashboard' },
   { text: 'Transfer', icon: <SwapHoriz />, path: '/transfer' },
   { text: 'Security', icon: <Shield />, path: '/security' },
+  { text: 'Transactions', icon: <SwapHoriz />, path: '/transactions' },
   { text: 'Analytics', icon: <PieChart />, path: '/analytics' },
   { text: 'Settings', icon: <Settings />, path: '/settings' },
+  { text: 'Admin', icon: <Shield />, path: '/admin' },
 ];
 
 export const DashboardLayout = () => {

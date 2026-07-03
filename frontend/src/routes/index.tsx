@@ -4,6 +4,10 @@ import { CommandCenter } from '../features/dashboard/CommandCenter';
 import { TransferFlow } from '../features/transfers/TransferFlow';
 import { DecisionDetails } from '../features/transfers/DecisionDetails';
 import { SecurityCenter } from '../features/security/SecurityCenter';
+import { TransactionsHub } from '../features/transactions/TransactionsHub';
+import { AnalyticsDashboard } from '../features/analytics/AnalyticsDashboard';
+import { ProfileSettings } from '../features/settings/ProfileSettings';
+import { AdminDashboard } from '../features/admin/AdminDashboard';
 import { LoginScreen } from '../features/authentication/LoginScreen';
 import { AuthGuard, GuestGuard } from '../guards';
 
@@ -53,12 +57,20 @@ export const router = createBrowserRouter([
             element: <SecurityCenter />
           },
           {
+            path: 'transactions',
+            element: <TransactionsHub />
+          },
+          {
             path: 'analytics',
-            element: <div>Analytics Placeholder</div>
+            element: <AnalyticsDashboard />
           },
           {
             path: 'settings',
-            element: <div>Settings Placeholder</div>
+            element: <ProfileSettings />
+          },
+          {
+            path: 'admin',
+            element: <AdminDashboard />
           }
         ]
       }
