@@ -23,11 +23,14 @@
 
 Unlike demo applications that fake AI with hardcoded responses, NIRNAY is a **real enterprise system**:
 
-- 🤖 **No Fake AI** — Every transaction runs through a live ML model, real rule engine, and LangGraph agent graph
-- 🗄️ **No Mock Data** — The frontend is strictly driven by the PostgreSQL database. Zero hardcoded state
-- 🔒 **No Bypassed Security** — Step-Up Authentication is enforced as the final barrier before any funds move
-- 📊 **No Manual Refreshes** — React Query cache invalidation propagates every backend change to the UI automatically
-- 🏛️ **No Monolithic Logic** — Every concern (Orchestration, ML, Rules, AI Agents, Decision, Audit) has its own layer
+- 🤖 **No Fake AI** — Every transaction runs through a live ML model, real rule engine, and LangGraph agent graph.
+- 🗄️ **No Mock Data** — The frontend is strictly driven by the PostgreSQL database. Zero hardcoded state.
+- 🔒 **No Bypassed Security** — Step-Up Authentication is enforced as the final barrier before any funds move.
+- 👥 **Digital Twin & Trust Heuristics** — Models temporal, amount, location, and device context to classify user trust (`NEW` → `LEARNING` → `ESTABLISHED` → `TRUSTED`) dynamically.
+- 📁 **Twin Training via Upload** — Supports instant behavioral bootstrapping via drag-and-drop bank statement CSV/JSON file uploads.
+- 💳 **Real Payee Flow** — Supports transferring to new beneficiaries, automatically registering and persisting their details.
+- 📊 **No Manual Refreshes** — React Query cache invalidation propagates every backend change and statement import to the UI automatically.
+- 🏛️ **No Monolithic Logic** — Every concern (Orchestration, ML, Rules, AI Agents, Decision, Audit) has its own layer.
 
 ---
 
@@ -338,6 +341,16 @@ Deterministic rules that cannot be overridden by AI:
 - 🟡 **SUSPICIOUS**: New recipient + large amount → AI Analysis
 - 🟡 **SUSPICIOUS**: After-hours high-value transfer
 - 🟢 **SAFE**: Trusted recipient + amount within normal range → Direct Auth
+
+### 👥 Digital Twin (Behavior Profile) & Trust Heuristics
+
+NIRNAY models the customer's behavioral archetype using an evolving **Digital Twin** framework:
+* **NEW (0-5 Transactions):** Default enrollment state. Trust score is low (50–65). All banking rules are strictly checked and security prompts are frequent.
+* **LEARNING (6-20 Transactions):** The AI learns timing, payee connections, locations, and spending habits to build context.
+* **ESTABLISHED (21-100 Transactions):** Verification friction is minimized for typical transacting behaviors.
+* **TRUSTED (100+ Transactions):** Seamless transaction flow with background security guardrails.
+
+To bootstrap this profile, users can navigate to the **Security Center** and upload historical CSV/JSON bank statements to instantly train and score their Digital Twin.
 
 ---
 
