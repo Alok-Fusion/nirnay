@@ -1,13 +1,13 @@
 import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
 import { Security, Block, Fingerprint, NotificationsActive, CheckCircle } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { mockRecipients } from '../../services/mockData';
-import { useSecurityMetrics } from '../../services/apiHooks';
+import { useSecurityMetrics, useRecipients } from '../../services/apiHooks';
 
 const MotionCard = motion(Card);
 
 export const SecurityCenter = () => {
   const { data: securityMetrics, isLoading } = useSecurityMetrics();
+  const { data: recipients = [] } = useRecipients();
   
   const metrics = securityMetrics || {
     overallScore: 0,
@@ -88,14 +88,14 @@ export const SecurityCenter = () => {
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>Recipient Security Profiles</Typography>
               <Grid container spacing={3}>
-                {mockRecipients.map(rec => (
+                {recipients.map((rec: any) => (
                   <Grid size={{ xs: 12, sm: 6, md: 4 }} key={rec.id}>
-                    <Box sx={{ p: 2, borderRadius: 2, border: '1px solid rgba(0,0,0,0.1)', bgcolor: rec.isTrusted ? 'transparent' : 'rgba(239, 68, 68, 0.05)' }}>
+                    <Box sx={{ p: 2, borderRadius: 2, border: '1px solid rgba(0,0,0,0.1)', bgcolor: rec.is_trusted ? 'transparent' : 'rgba(239, 68, 68, 0.05)' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        {rec.isTrusted ? <CheckCircle color="success" fontSize="small" /> : <Block color="error" fontSize="small" />}
+                        {rec.is_trusted ? <CheckCircle color="success" fontSize="small" /> : <Block color="error" fontSize="small" />}
                         <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{rec.name}</Typography>
                       </Box>
-                      <Typography variant="body2" color="text.secondary">{rec.accountMasked} â€¢ {rec.bankCode}</Typography>
+                      <Typography variant="body2" color="text.secondary">{rec.account_number} • {rec.bank_code}</Typography>
                     </Box>
                   </Grid>
                 ))}
