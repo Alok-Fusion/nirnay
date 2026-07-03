@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DashboardLayout, AuthLayout } from '../layouts';
 import { CommandCenter } from '../features/dashboard/CommandCenter';
 import { TransferFlow } from '../features/transfers/TransferFlow';
+import { DecisionDetails } from '../features/transfers/DecisionDetails';
 import { SecurityCenter } from '../features/security/SecurityCenter';
 import { LoginScreen } from '../features/authentication/LoginScreen';
 import { AuthGuard, GuestGuard } from '../guards';
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
           {
             path: 'transfer',
             element: <TransferFlow />
+          },
+          {
+            path: 'decision/:id',
+            element: <DecisionDetails />
           },
           {
             path: 'security',

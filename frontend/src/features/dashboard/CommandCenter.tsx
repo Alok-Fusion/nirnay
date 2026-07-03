@@ -95,7 +95,8 @@ export const CommandCenter = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 + (idx * 0.1) }}
-                sx={{ overflow: 'visible' }}
+                sx={{ overflow: 'visible', cursor: 'pointer', '&:hover': { bgcolor: 'rgba(0,0,0,0.02)' } }}
+                onClick={() => navigate(`/decision/${tx.id}`)}
               >
                 <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: '24px !important' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
