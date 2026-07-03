@@ -4,7 +4,7 @@ import logging
 from typing import Dict, Any, Optional
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
-from langchain_community.chat_models import ChatOllama
+from langchain_ollama import ChatOllama
 from backend.app.core.config import settings
 
 logger = logging.getLogger(__name__)

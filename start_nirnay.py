@@ -54,10 +54,17 @@ def verify_system():
     
     print_status("FastAPI Backend", "STARTING", "Running on http://localhost:8000")
     
-    # Wait for backend to initialize
-    time.sleep(3)
-    if not check_port("127.0.0.1", 8000):
-        print_status("FastAPI Backend", "FAILED", "Backend failed to bind to port 8000.")
+    # Wait for backend to initialize (poll for up to 30 seconds)
+    max_retries = 30
+    backend_ready = False
+    for _ in range(max_retries):
+        time.sleep(1)
+        if check_port("127.0.0.1", 8000):
+            backend_ready = True
+            break
+            
+    if not backend_ready:
+        print_status("FastAPI Backend", "FAILED", "Backend failed to bind to port 8000 after 30 seconds.")
         backend_process.terminate()
         sys.exit(1)
     else:

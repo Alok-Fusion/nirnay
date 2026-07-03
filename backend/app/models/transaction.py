@@ -37,8 +37,16 @@ class Transaction(Base):
     recipient_id = Column(Integer, ForeignKey("recipients.id"), nullable=True)
     amount = Column(Float, nullable=False)
     currency = Column(String, default="USD")
-    status = Column(Enum(TransactionState), default=TransactionState.INITIATED, nullable=False)
-    type = Column(Enum(TransactionType), default=TransactionType.TRANSFER, nullable=False)
+    status = Column(
+        Enum(TransactionState, values_callable=lambda x: [e.value for e in x]),
+        default=TransactionState.INITIATED,
+        nullable=False
+    )
+    type = Column(
+        Enum(TransactionType, values_callable=lambda x: [e.value for e in x]),
+        default=TransactionType.TRANSFER,
+        nullable=False
+    )
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     
