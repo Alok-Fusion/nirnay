@@ -6,12 +6,23 @@ from backend.app.database.base import Base
 
 class TransactionState(str, enum.Enum):
     INITIATED = "Initiated"
-    VALIDATION = "Validation"
-    RISK_ANALYSIS = "Risk Analysis"
-    AWAITING_CUSTOMER_DECISION = "Awaiting Customer Decision"
+    VALIDATING = "Validating"
+    CUSTOMER_CONTEXT_READY = "Customer Context Ready"
+    FEATURE_ENGINEERING = "Feature Engineering"
+    ML_ANALYSIS = "ML Analysis"
+    RULE_ENGINE = "Rule Engine"
+    AI_ANALYSIS = "AI Analysis"
+    AI_POLICY = "AI Policy"
+    CUSTOMER_VERIFICATION = "Customer Verification"
+    AWAITING_CUSTOMER_RESPONSE = "Awaiting Customer Response"
+    PENDING_DECISION = "Pending Decision"
     APPROVED = "Approved"
+    STEP_UP_AUTHENTICATION = "Step Up Authentication"
+    EXECUTING = "Executing"
     COMPLETED = "Completed"
-    REJECTED = "Rejected"
+    BLOCKED = "Blocked"
+    CANCELLED = "Cancelled"
+    FAILED = "Failed"
 
 class TransactionType(str, enum.Enum):
     TRANSFER = "Transfer"

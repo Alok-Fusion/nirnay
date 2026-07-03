@@ -12,6 +12,7 @@ from backend.app.api.v1.recipients.routes import router as recipients_router
 from backend.app.api.v1.risk.routes import router as risk_router
 from backend.app.api.v1.analytics.routes import router as analytics_router
 from backend.app.api.v1.admin.routes import router as admin_router
+from backend.app.api.v1.system.routes import router as system_router
 import logging
 from backend.app.core.logging import setup_logging
 
@@ -50,6 +51,19 @@ app.include_router(recipients_router, prefix=f"{settings.API_V1_STR}/recipients"
 app.include_router(risk_router, prefix=f"{settings.API_V1_STR}/risk", tags=["risk"])
 app.include_router(analytics_router, prefix=f"{settings.API_V1_STR}/analytics", tags=["analytics"])
 app.include_router(admin_router, prefix=f"{settings.API_V1_STR}/admin", tags=["admin"])
+app.include_router(system_router, prefix=f"{settings.API_V1_STR}/system", tags=["system"])
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Initializing NIRNAY Enterprise Backend...")
+    # Validate LLM Manager startup
+    from ai.llm_manager import LLMManager
+    llm = LLMManager()
+    status = llm.health_check()
+    if status["status"] != "healthy":
+        logger.warning(f"Startup Warning: LLM providers degraded: {status}")
+    else:
+        logger.info("Startup Check: LLM providers connected.")
 
 @app.get("/health")
 def health_check():

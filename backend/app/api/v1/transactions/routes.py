@@ -7,13 +7,17 @@ from backend.app.models.account import Account
 from typing import List
 from backend.app.database.session import get_db
 from backend.app.api.dependencies import get_current_user
-from backend.app.services.transaction_service import TransactionService
+from backend.app.services.transaction_orchestrator import TransactionOrchestrator
 
 router = APIRouter()
 
 @router.post('/transfer', response_model=TransferDecisionResponse)
 def transfer_money(request: TransferRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    return TransactionService.transfer(db, current_user.id, request)
+    return TransactionOrchestrator.process(db, current_user.id, request)
+
+@router.post('/{transaction_id}/authenticate', response_model=TransactionResponse)
+def authenticate_and_execute(transaction_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    return TransactionOrchestrator.authenticate_and_execute(db, transaction_id, current_user.id)
 
 @router.get('/history', response_model=List[TransactionResponse])
 def get_transaction_history(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):

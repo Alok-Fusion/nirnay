@@ -1,4 +1,4 @@
-﻿import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DashboardLayout, AuthLayout } from '../layouts';
 import { CommandCenter } from '../features/dashboard/CommandCenter';
 import { TransferFlow } from '../features/transfers/TransferFlow';
@@ -9,6 +9,7 @@ import { AnalyticsDashboard } from '../features/analytics/AnalyticsDashboard';
 import { ProfileSettings } from '../features/settings/ProfileSettings';
 import { AdminDashboard } from '../features/admin/AdminDashboard';
 import { LoginScreen } from '../features/authentication/LoginScreen';
+import { RecipientManagement } from '../features/transactions/RecipientManagement';
 import { AuthGuard, GuestGuard } from '../guards';
 
 export const router = createBrowserRouter([
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
           {
             path: 'transactions',
             element: <TransactionsHub />
+          },
+          {
+            path: 'recipients',
+            element: <RecipientManagement />
           },
           {
             path: 'analytics',
