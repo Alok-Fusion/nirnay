@@ -57,6 +57,26 @@ def seed_db():
         db.add(recipient)
         db.commit()
         
+    from backend.app.models.behavior_profile import BehaviorProfile
+    profile = db.query(BehaviorProfile).filter(BehaviorProfile.user_id == user.id).first()
+    if not profile:
+        print("Creating behavior profile...")
+        profile = BehaviorProfile(
+            user_id=user.id,
+            avg_transaction_amount=120.0,
+            transaction_count=8,
+            average_daily_transactions=0.4,
+            trusted_recipients=[1],
+            known_devices=["Chrome/Windows"],
+            known_locations=["India"],
+            average_balance=250000.0,
+            historical_risk=0.08,
+            trust_score=72,
+            trust_level="LEARNING"
+        )
+        db.add(profile)
+        db.commit()
+        
     print("Seed complete.")
     db.close()
 

@@ -1,13 +1,37 @@
-import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon, Chip } from '@mui/material';
 import { Security, Block, Fingerprint, NotificationsActive, CheckCircle } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { useSecurityMetrics, useRecipients } from '../../services/apiHooks';
+import { useSecurityMetrics, useRecipients, useUserBehavior } from '../../services/apiHooks';
 
 const MotionCard = motion(Card);
 
+const formatHour = (hour: number | null | undefined) => {
+  if (hour == null) return 'N/A';
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:00 ${ampm}`;
+};
+
+const getLimit = (level: string | undefined) => {
+  switch (level) {
+    case 'TRUSTED':
+      return '$100,000';
+    case 'ESTABLISHED':
+      return '$50,000';
+    case 'LEARNING':
+      return '$25,000';
+    case 'NEW':
+    default:
+      return '$10,000';
+  }
+};
+
 export const SecurityCenter = () => {
-  const { data: securityMetrics, isLoading } = useSecurityMetrics();
+  const { data: securityMetrics, isLoading: isLoadingSecurity } = useSecurityMetrics();
   const { data: recipients = [] } = useRecipients();
+  const { data: behavior, isLoading: isLoadingBehavior } = useUserBehavior();
+  
+  const isLoading = isLoadingSecurity || isLoadingBehavior;
   
   const metrics = securityMetrics || {
     overallScore: 0,
@@ -31,29 +55,69 @@ export const SecurityCenter = () => {
         <Grid size={{ xs: 12, md: 6 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} sx={{ height: '100%' }}>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ mb: 3 }}>AI Protection Metrics</Typography>
+              <Typography variant="h6" sx={{ mb: 3 }}>AI Protection & Twin Metrics</Typography>
               {isLoading ? (
                 <Typography>Loading metrics...</Typography>
               ) : (
                 <>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography color="text.secondary">Overall Security Score</Typography>
-                    <Typography sx={{ fontWeight: 'bold' }} color="secondary.main">{metrics.overallScore} / 100</Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                    <Typography color="text.secondary">Digital Twin Level</Typography>
+                    <Chip 
+                      label={behavior?.trust_level || 'NEW'} 
+                      color="primary" 
+                      size="small" 
+                      sx={{ fontWeight: 'bold', fontSize: '0.75rem' }} 
+                    />
                   </Box>
-                  <Divider sx={{ my: 2 }} />
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Behavioral Trust Score</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }} color="primary.main">{(behavior?.trust_score ?? 50)} / 100</Typography>
+                  </Box>
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Average Transfer Hour</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }}>{formatHour(behavior?.preferred_transfer_hour)}</Typography>
+                  </Box>
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Daily Transfer Limit</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }} color="success.main">{getLimit(behavior?.trust_level)}</Typography>
+                  </Box>
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Daily Transfer Velocity</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }}>{(behavior?.average_daily_transactions ?? 0).toFixed(2)} tx/day</Typography>
+                  </Box>
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Typography color="text.secondary">Active Locations</Typography>
+                    <Typography sx={{ fontWeight: 'bold', textAlign: 'right' }}>
+                      {behavior?.known_locations && behavior.known_locations.length > 0 
+                        ? behavior.known_locations.join(', ') 
+                        : 'None'}
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ my: 1.5 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     <Typography color="text.secondary">Trusted Devices</Typography>
-                    <Typography sx={{ fontWeight: 'bold' }}>{metrics.trustedDevices} active</Typography>
+                    <Typography sx={{ fontWeight: 'bold', textAlign: 'right' }}>
+                      {behavior?.known_devices && behavior.known_devices.length > 0 
+                        ? behavior.known_devices.join(', ') 
+                        : 'None'}
+                    </Typography>
                   </Box>
-                  <Divider sx={{ my: 2 }} />
+                  <Divider sx={{ my: 1.5 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     <Typography color="text.secondary">Blocked Attempts (30d)</Typography>
                     <Typography sx={{ fontWeight: 'bold' }} color="error.main">{metrics.blockedAttempts}</Typography>
                   </Box>
-                  <Divider sx={{ my: 2 }} />
+                  <Divider sx={{ my: 1.5 }} />
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography color="text.secondary">Last Login</Typography>
-                    <Typography sx={{ fontWeight: 'bold' }}>{new Date(metrics.lastLogin).toLocaleString()}</Typography>
+                    <Typography color="text.secondary">Last Action Profile Update</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }}>
+                      {behavior?.last_updated ? new Date(behavior.last_updated).toLocaleString() : 'N/A'}
+                    </Typography>
                   </Box>
                 </>
               )}

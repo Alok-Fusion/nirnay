@@ -173,7 +173,12 @@ class TransactionOrchestrator:
             "risk_score": risk_evaluation["risk_score"],
             "risk_level": risk_evaluation["risk_level"],
             "confidence": risk_evaluation["confidence"],
-            "recommended_action": risk_evaluation["recommended_action"]
+            "recommended_action": risk_evaluation["recommended_action"],
+            "reason_codes": risk_evaluation["reasoning"],  # Save plain-language reasoning to DB
+            "features": {
+                "scam_type": scam_type,
+                "rule_reason": rule_reason
+            }
         })
         db.commit()
         
@@ -221,6 +226,61 @@ class TransactionOrchestrator:
         
         # Here we could also log audit events, send notifications
         logger.info(f"Ledger updated for transaction {transaction_id}. Balance deducted.")
+        
+        # Dynamically update the user's BehaviorProfile / Digital Twin
+        try:
+            from backend.app.models.behavior_profile import BehaviorProfile
+            from backend.app.models.user import User
+            
+            user = db.query(User).filter(User.id == user_id).first()
+            profile = db.query(BehaviorProfile).filter(BehaviorProfile.user_id == user_id).first()
+            if not profile:
+                profile = BehaviorProfile(user_id=user_id)
+                db.add(profile)
+                db.flush()
+                
+            # 1. Update stats
+            profile.transaction_count = (profile.transaction_count or 0) + 1
+            count = profile.transaction_count
+            
+            # Recalculate average transaction amount
+            prev_avg = profile.avg_transaction_amount or 0.0
+            profile.avg_transaction_amount = ((prev_avg * (count - 1)) + transaction.amount) / count
+            
+            # Recalculate average daily spending
+            now = datetime.utcnow()
+            days_registered = max(1, (now - user.created_at.replace(tzinfo=None)).days) if user.created_at else 1
+            profile.average_daily_transactions = count / float(days_registered)
+            
+            # Update temporal context
+            profile.preferred_transfer_hour = int(now.hour)
+            profile.last_transaction = now
+            profile.average_balance = float(sender_account.balance)
+            
+            # Add to trusted recipients list if not already present
+            if transaction.recipient_id:
+                current_recipients = list(profile.trusted_recipients or [])
+                if transaction.recipient_id not in current_recipients:
+                    current_recipients.append(transaction.recipient_id)
+                    profile.trusted_recipients = current_recipients
+            
+            # 2. Update AI Trust Timeline & Score based on transaction count
+            if count <= 5:
+                profile.trust_level = "NEW"
+                profile.trust_score = int(50 + (count * 3))
+            elif count <= 20:
+                profile.trust_level = "LEARNING"
+                profile.trust_score = int(65 + ((count - 5) * 0.8))
+            elif count <= 100:
+                profile.trust_level = "ESTABLISHED"
+                profile.trust_score = int(77 + ((count - 20) * 0.2))
+            else:
+                profile.trust_level = "TRUSTED"
+                profile.trust_score = min(99, int(93 + ((count - 100) * 0.05)))
+                
+            logger.info(f"Updated BehaviorProfile for user {user_id}. Count: {count}, Trust Level: {profile.trust_level}, Trust Score: {profile.trust_score}")
+        except Exception as profile_err:
+            logger.error(f"Failed to update BehaviorProfile on transaction completion: {profile_err}")
         
         db.commit()
         

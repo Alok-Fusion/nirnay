@@ -18,8 +18,25 @@ class AuthService:
         user_data["password_hash"] = get_password_hash(user_in.password)
         
         user = user_repo.create(db, obj_in=user_data)
+        
+        # Initialize BehaviorProfile
+        from backend.app.models.behavior_profile import BehaviorProfile
+        profile = BehaviorProfile(
+            user_id=user.id,
+            avg_transaction_amount=0.0,
+            transaction_count=0,
+            average_daily_transactions=0.0,
+            trusted_recipients=[],
+            known_devices=[],
+            known_locations=[],
+            average_balance=0.0,
+            historical_risk=0.0,
+            trust_score=50,
+            trust_level="NEW"
+        )
+        db.add(profile)
         db.commit()
-        logger.info(f"User registered successfully: {user.email}")
+        logger.info(f"User registered successfully with BehaviorProfile: {user.email}")
         return user
 
     @staticmethod

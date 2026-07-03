@@ -39,6 +39,16 @@ export const useUser = () => {
   });
 };
 
+export const useUserBehavior = () => {
+  return useQuery({
+    queryKey: ['user-behavior'],
+    queryFn: async () => {
+      const { data } = await api.get('/users/me/behavior');
+      return data;
+    }
+  });
+};
+
 // --- ACCOUNTS ---
 export const useAccounts = () => {
   return useQuery({
@@ -96,6 +106,7 @@ export const useAuthenticateTransaction = () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       queryClient.invalidateQueries({ queryKey: ['security'] });
       queryClient.invalidateQueries({ queryKey: ['analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['user-behavior'] });
     }
   });
 };

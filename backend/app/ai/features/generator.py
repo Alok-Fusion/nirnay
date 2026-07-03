@@ -23,6 +23,9 @@ class FeatureGenerator:
         account = db.query(Account).filter(Account.id == account_id).first()
         recipient = db.query(Recipient).filter(Recipient.id == recipient_id).first()
         
+        from backend.app.models.behavior_profile import BehaviorProfile
+        profile = db.query(BehaviorProfile).filter(BehaviorProfile.user_id == user_id).first()
+        
         # Base fallback
         if not user or not account or not recipient:
             return FeatureGenerator._default_features()
@@ -90,19 +93,19 @@ class FeatureGenerator:
         
         # Compile all features
         features = {
-            "average_transaction": avg_tx_last_30_days,
-            "average_daily_transaction": avg_tx_last_30_days / 30.0 if tx_last_30_days > 0 else 0.0,
-            "average_weekly_transaction": avg_tx_last_30_days / 4.0 if tx_last_30_days > 0 else 0.0,
-            "average_monthly_transaction": avg_tx_last_30_days,
-            "average_transaction_last_30_days": avg_tx_last_30_days,
-            "transaction_frequency": tx_last_30_days / 30.0,
+            "average_transaction": float(profile.avg_transaction_amount) if profile else avg_tx_last_30_days,
+            "average_daily_transaction": float(profile.average_daily_transactions) if profile else (avg_tx_last_30_days / 30.0 if tx_last_30_days > 0 else 0.0),
+            "average_weekly_transaction": float(profile.avg_transaction_amount / 4.0) if profile else (avg_tx_last_30_days / 4.0 if tx_last_30_days > 0 else 0.0),
+            "average_monthly_transaction": float(profile.avg_transaction_amount) if profile else avg_tx_last_30_days,
+            "average_transaction_last_30_days": float(profile.avg_transaction_amount) if profile else avg_tx_last_30_days,
+            "transaction_frequency": float(profile.transaction_count / 30.0) if profile else (tx_last_30_days / 30.0),
             "transactions_last_hour": tx_last_hour,
             "transactions_last_day": tx_last_day,
             "transactions_last_week": tx_last_week,
             "time_since_last_transaction": time_since_last_tx_hours,
             "recipient_transfer_count": recipient_tx_count,
             "recipient_first_seen_days": recipient_first_seen_days,
-            "trusted_recipient": 1.0 if recipient.is_trusted else 0.0,
+            "trusted_recipient": 1.0 if (recipient.is_trusted or (profile and recipient_id in (profile.trusted_recipients or []))) else 0.0,
             "recipient_risk": 0.0 if recipient.is_trusted else (1.0 if recipient_tx_count == 0 else 0.5),
             "account_age_days": float(account_age_days),
             "customer_age": 35.0, # Mock as user table doesn't have age
@@ -111,9 +114,9 @@ class FeatureGenerator:
             "balance_before": balance_before,
             "balance_after": balance_after,
             "remaining_balance_ratio": remaining_balance_ratio,
-            "amount_ratio": amount_ratio,
-            "historical_risk": 0.1,
-            "behaviour_score": 0.9,
+            "amount_ratio": current_amount / ((profile.avg_transaction_amount if profile and profile.avg_transaction_amount else avg_tx_last_30_days) + 1.0),
+            "historical_risk": float(profile.historical_risk) if profile else 0.1,
+            "behaviour_score": float((profile.trust_score or 50.0) / 100.0) if profile else 0.9,
             "device_score": 1.0,
             "location_score": 1.0,
             "velocity_score": min(tx_last_hour / 2.0, 1.0),
