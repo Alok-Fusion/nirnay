@@ -1,5 +1,5 @@
-import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import { Security, DevicesOther, Block, Fingerprint, NotificationsActive } from '@mui/icons-material';
+﻿import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Security, Block, Fingerprint, NotificationsActive, CheckCircle } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { mockSecurityMetrics, mockRecipients } from '../../services/mockData';
 
@@ -18,30 +18,30 @@ export const SecurityCenter = () => {
 
       <Grid container spacing={4}>
         {/* Protection Metrics */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} sx={{ height: '100%' }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>AI Protection Metrics</Typography>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Typography color="text.secondary">Overall Security Score</Typography>
-                <Typography fontWeight="bold" color="secondary.main">{mockSecurityMetrics.overallScore} / 100</Typography>
+                <Typography sx={{ fontWeight: 'bold' }} color="secondary.main">{mockSecurityMetrics.overallScore} / 100</Typography>
               </Box>
               <Divider sx={{ my: 2 }} />
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Typography color="text.secondary">Trusted Devices</Typography>
-                <Typography fontWeight="bold">{mockSecurityMetrics.trustedDevices}</Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>{mockSecurityMetrics.trustedDevices}</Typography>
               </Box>
               <Divider sx={{ my: 2 }} />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography color="text.secondary">Blocked Fraud Attempts (30d)</Typography>
-                <Typography fontWeight="bold" color="error.main">{mockSecurityMetrics.blockedAttempts}</Typography>
+                <Typography sx={{ fontWeight: 'bold' }} color="error.main">{mockSecurityMetrics.blockedAttempts}</Typography>
               </Box>
             </CardContent>
           </MotionCard>
         </Grid>
 
         {/* Security Settings */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} sx={{ height: '100%' }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>Active Controls</Typography>
@@ -62,19 +62,19 @@ export const SecurityCenter = () => {
         </Grid>
 
         {/* Trusted & Blocked Recipients */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3 }}>Recipient Security Profiles</Typography>
               <Grid container spacing={3}>
                 {mockRecipients.map(rec => (
-                  <Grid item xs={12} sm={6} md={4} key={rec.id}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={rec.id}>
                     <Box sx={{ p: 2, borderRadius: 2, border: '1px solid rgba(0,0,0,0.1)', bgcolor: rec.isTrusted ? 'transparent' : 'rgba(239, 68, 68, 0.05)' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                         {rec.isTrusted ? <CheckCircle color="success" fontSize="small" /> : <Block color="error" fontSize="small" />}
-                        <Typography variant="subtitle2" fontWeight="600">{rec.name}</Typography>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{rec.name}</Typography>
                       </Box>
-                      <Typography variant="body2" color="text.secondary">{rec.accountMasked} • {rec.bankCode}</Typography>
+                      <Typography variant="body2" color="text.secondary">{rec.accountMasked} â€¢ {rec.bankCode}</Typography>
                     </Box>
                   </Grid>
                 ))}
@@ -86,3 +86,4 @@ export const SecurityCenter = () => {
     </Box>
   );
 };
+

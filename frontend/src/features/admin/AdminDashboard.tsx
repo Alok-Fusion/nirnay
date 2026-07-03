@@ -1,5 +1,5 @@
 import { Box, Typography, Grid, Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Chip } from '@mui/material';
-import { Shield, Warning, Gavel } from '@mui/icons-material';
+import { Shield, Gavel } from '@mui/icons-material';
 import { mockTransactions } from '../../services/mockData';
 
 export const AdminDashboard = () => {
@@ -10,33 +10,33 @@ export const AdminDashboard = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
         <Shield sx={{ fontSize: 40, color: 'primary.main' }} />
         <Box>
-          <Typography variant="h4" fontWeight="700">Admin Command Center</Typography>
+          <Typography variant="h4" sx={{ fontWeight: "700" }}>Admin Command Center</Typography>
           <Typography variant="body1" color="text.secondary">Global AI risk monitoring and system metrics.</Typography>
         </Box>
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography color="text.secondary" gutterBottom>Active High-Risk Cases</Typography>
-              <Typography variant="h3" color="error.main" fontWeight="700">{highRiskTxs.length}</Typography>
+              <Typography variant="h3" color="error.main" sx={{ fontWeight: "700" }}>{highRiskTxs.length}</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography color="text.secondary" gutterBottom>Global AI Confidence</Typography>
-              <Typography variant="h3" color="success.main" fontWeight="700">96.4%</Typography>
+              <Typography variant="h3" color="success.main" sx={{ fontWeight: "700" }}>96.4%</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography color="text.secondary" gutterBottom>System Uptime</Typography>
-              <Typography variant="h3" color="primary.main" fontWeight="700">99.99%</Typography>
+              <Typography variant="h3" color="primary.main" sx={{ fontWeight: "700" }}>99.99%</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -60,7 +60,7 @@ export const AdminDashboard = () => {
                 <TableCell>{tx.id}</TableCell>
                 <TableCell>{tx.recipientName}</TableCell>
                 <TableCell>
-                  <Typography fontWeight="700" color="error.main">{tx.aiRiskScore}/100</Typography>
+                  <Typography sx={{ fontWeight: "700" }} color="error.main">{tx.aiRiskScore}/100</Typography>
                 </TableCell>
                 <TableCell>
                   <Chip label="Awaiting Review" color="warning" size="small" />
@@ -81,3 +81,4 @@ export const AdminDashboard = () => {
     </Box>
   );
 };
+

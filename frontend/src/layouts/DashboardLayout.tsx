@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, AppBar, Toolbar, IconButton, Avatar } from '@mui/material';
+﻿import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, AppBar, Toolbar, IconButton, Avatar, ListItemButton } from '@mui/material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Home, SwapHoriz, Shield, PieChart, Settings, Menu } from '@mui/icons-material';
 import { useState } from 'react';
@@ -32,22 +32,21 @@ export const DashboardLayout = () => {
       </Box>
       <List sx={{ px: 2, flex: 1 }}>
         {menuItems.map((item) => (
-          <ListItem
-            button
-            key={item.text}
-            onClick={() => navigate(item.path)}
-            sx={{
-              borderRadius: 2,
-              mb: 1,
-              backgroundColor: location.pathname.startsWith(item.path) && item.path !== '/dashboard' || location.pathname === item.path ? 'rgba(26, 35, 126, 0.08)' : 'transparent',
-              color: location.pathname.startsWith(item.path) && item.path !== '/dashboard' || location.pathname === item.path ? 'primary.main' : 'text.secondary',
-              '&:hover': {
-                backgroundColor: 'rgba(26, 35, 126, 0.04)',
-              }
-            }}
-          >
+          <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+            <ListItemButton
+              onClick={() => navigate(item.path)}
+              sx={{
+                borderRadius: 2,
+                backgroundColor: location.pathname.startsWith(item.path) && item.path !== '/dashboard' || location.pathname === item.path ? 'rgba(26, 35, 126, 0.08)' : 'transparent',
+                color: location.pathname.startsWith(item.path) && item.path !== '/dashboard' || location.pathname === item.path ? 'primary.main' : 'text.secondary',
+                '&:hover': {
+                  backgroundColor: 'rgba(26, 35, 126, 0.04)',
+                }
+              }}
+            >
             <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
+            <ListItemText primary={item.text} slotProps={{ primary: { sx: { fontWeight: 600, fontSize: '0.9rem' } } }} />
+            </ListItemButton>
           </ListItem>
         ))}
       </List>
@@ -108,3 +107,4 @@ export const DashboardLayout = () => {
     </Box>
   );
 };
+

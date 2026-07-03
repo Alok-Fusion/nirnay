@@ -1,4 +1,4 @@
-import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
+﻿import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LineChart, Line } from 'recharts';
 
@@ -25,13 +25,13 @@ export const AnalyticsDashboard = () => {
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" fontWeight="700">Analytics</Typography>
+        <Typography variant="h4" sx={{ fontWeight: "700" }}>Analytics</Typography>
         <Typography variant="body1" color="text.secondary">Understand your financial health and AI protection trends.</Typography>
       </Box>
 
       <Grid container spacing={4}>
         {/* Spending vs Income */}
-        <Grid item xs={12} lg={8}>
+        <Grid size={{ xs: 12, lg: 8 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 4 }}>Cash Flow (6 Months)</Typography>
@@ -52,7 +52,7 @@ export const AnalyticsDashboard = () => {
         </Grid>
 
         {/* AI Interventions */}
-        <Grid item xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} sx={{ height: '100%' }}>
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 4 }}>AI Risk Interventions</Typography>
@@ -75,3 +75,4 @@ export const AnalyticsDashboard = () => {
     </Box>
   );
 };
+

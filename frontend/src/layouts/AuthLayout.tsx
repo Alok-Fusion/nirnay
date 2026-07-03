@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+﻿import { Box, Typography } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 export const AuthLayout = () => {
@@ -31,3 +31,4 @@ export const AuthLayout = () => {
     </Box>
   );
 };
+

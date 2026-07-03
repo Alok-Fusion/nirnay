@@ -1,4 +1,4 @@
-import { Box, Typography, Card, CardContent, Grid, TextField, Button, Switch, Divider } from '@mui/material';
+﻿import { Box, Typography, Card, CardContent, Grid, TextField, Button, Switch, Divider } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const MotionCard = motion(Card);
@@ -6,19 +6,19 @@ const MotionCard = motion(Card);
 export const ProfileSettings = () => {
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto', py: 4 }}>
-      <Typography variant="h4" fontWeight="700" sx={{ mb: 4 }}>Settings & Profile</Typography>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 4 }}>Settings & Profile</Typography>
 
       <MotionCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} sx={{ mb: 4 }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h6" sx={{ mb: 3 }}>Personal Information</Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField fullWidth label="Full Name" defaultValue="Alok Kumar" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField fullWidth label="Email Address" defaultValue="alok@example.com" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField fullWidth label="Phone Number" defaultValue="+1 (555) 123-4567" />
             </Grid>
           </Grid>
@@ -34,7 +34,7 @@ export const ProfileSettings = () => {
           
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Box>
-              <Typography fontWeight="500">Dark Mode</Typography>
+              <Typography sx={{ fontWeight: 500 }}>Dark Mode</Typography>
               <Typography variant="body2" color="text.secondary">Switch between light and dark themes.</Typography>
             </Box>
             <Switch color="primary" />
@@ -43,7 +43,7 @@ export const ProfileSettings = () => {
           
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Box>
-              <Typography fontWeight="500">Push Notifications</Typography>
+              <Typography sx={{ fontWeight: 500 }}>Push Notifications</Typography>
               <Typography variant="body2" color="text.secondary">Receive real-time alerts for transactions.</Typography>
             </Box>
             <Switch color="primary" defaultChecked />
@@ -52,7 +52,7 @@ export const ProfileSettings = () => {
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box>
-              <Typography fontWeight="500">Reduced Motion</Typography>
+              <Typography sx={{ fontWeight: 500 }}>Reduced Motion</Typography>
               <Typography variant="body2" color="text.secondary">Disable animations across the platform.</Typography>
             </Box>
             <Switch color="primary" />
@@ -62,3 +62,4 @@ export const ProfileSettings = () => {
     </Box>
   );
 };
+

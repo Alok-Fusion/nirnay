@@ -1,8 +1,8 @@
-import { Box, Typography, Button, TextField, MenuItem, Stepper, Step, StepLabel, CircularProgress, Card } from '@mui/material';
+﻿import { Box, Typography, Button, TextField, MenuItem, Stepper, Step, StepLabel, CircularProgress, Card } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { mockRecipients, mockAiAnalysis } from '../../services/mockData';
-import { Lock, CheckCircle, Warning, SupportAgent } from '@mui/icons-material';
+import { Lock, CheckCircle, SupportAgent } from '@mui/icons-material';
 
 const MotionBox = motion(Box);
 
@@ -102,7 +102,7 @@ export const TransferFlow = () => {
                     <SupportAgent sx={{ fontSize: 40, color: 'primary.main' }} />
                     <Box>
                       <Typography variant="h6" color="primary.main">Analysis Complete</Typography>
-                      <Typography variant="body2" color="text.secondary">Risk Score: {mockAiAnalysis.riskScore}/100 • Confidence: {mockAiAnalysis.confidence}%</Typography>
+                      <Typography variant="body2" color="text.secondary">Risk Score: {mockAiAnalysis.riskScore}/100 â€¢ Confidence: {mockAiAnalysis.confidence}%</Typography>
                     </Box>
                   </Box>
 
@@ -122,7 +122,7 @@ export const TransferFlow = () => {
                           borderRadius: '50%', border: '2px solid',
                           borderColor: ev.type === 'POSITIVE' ? 'success.main' : 'warning.main'
                         }} />
-                        <Typography variant="subtitle1" fontWeight="bold">{ev.title}</Typography>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{ev.title}</Typography>
                         <Typography variant="body2" color="text.secondary">{ev.description}</Typography>
                       </MotionBox>
                     ))}
@@ -132,7 +132,7 @@ export const TransferFlow = () => {
                     <Typography variant="subtitle2" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: 1, mb: 1 }}>
                       AI Recommendation
                     </Typography>
-                    <Typography variant="body1" fontWeight="500">
+                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
                       {mockAiAnalysis.recommendation}
                     </Typography>
                   </Box>
@@ -177,3 +177,4 @@ export const TransferFlow = () => {
     </Box>
   );
 };
+

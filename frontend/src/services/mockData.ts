@@ -1,4 +1,4 @@
-export interface MockTransaction {
+﻿export interface MockTransaction {
   id: string;
   recipientName: string;
   amount: number;
@@ -47,3 +47,4 @@ export const mockAiAnalysis = {
   recommendation: 'Proceed with standard PIN verification.',
   policyAction: 'Require Customer Confirmation'
 };
+

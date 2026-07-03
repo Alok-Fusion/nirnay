@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+﻿import { createTheme } from '@mui/material/styles';
 
 const typography = {
   fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -84,3 +84,4 @@ export const darkTheme = createTheme({
   typography,
   components,
 });
+

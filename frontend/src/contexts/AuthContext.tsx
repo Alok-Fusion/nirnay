@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { api } from '../services/api';
+import { createContext, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -60,3 +60,4 @@ export const useAuth = () => {
   }
   return context;
 };
+

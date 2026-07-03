@@ -1,4 +1,4 @@
-import { Box, Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, TextField, InputAdornment, IconButton, Paper } from '@mui/material';
+﻿import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, TextField, InputAdornment, IconButton, Paper } from '@mui/material';
 import { Search, FilterList, Download, CheckCircle, Warning } from '@mui/icons-material';
 import { mockTransactions } from '../../services/mockData';
 import { motion } from 'framer-motion';
@@ -13,15 +13,17 @@ export const TransactionsHub = () => {
     <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
-          <Typography variant="h4" fontWeight="700">Transactions</Typography>
+          <Typography variant="h4" sx={{ fontWeight: 700 }}>Transactions</Typography>
           <Typography variant="body1" color="text.secondary">View and search your complete transaction history.</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField 
             size="small" 
             placeholder="Search transactions..." 
-            InputProps={{
-              startAdornment: <InputAdornment position="start"><Search /></InputAdornment>,
+            slotProps={{
+              input: {
+                startAdornment: <InputAdornment position="start"><Search /></InputAdornment>,
+              }
             }}
             sx={{ bgcolor: 'white', borderRadius: 1 }}
           />
@@ -85,3 +87,4 @@ export const TransactionsHub = () => {
     </Box>
   );
 };
+

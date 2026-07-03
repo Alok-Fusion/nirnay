@@ -1,5 +1,5 @@
-import { Box, Typography, Grid, Card, CardContent, Button, Stack, Chip, Divider } from '@mui/material';
-import { Shield, TrendingUp, SwapHoriz, ArrowForward, CheckCircle, Warning } from '@mui/icons-material';
+﻿import { Box, Typography, Grid, Card, CardContent, Button, Stack, Chip, Divider } from '@mui/material';
+import { Shield, ArrowForward, CheckCircle, Warning } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { mockTransactions, mockSecurityMetrics } from '../../services/mockData';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ export const CommandCenter = () => {
 
       <Grid container spacing={3}>
         {/* Quick Transfer Action */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <MotionCard
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -49,7 +49,7 @@ export const CommandCenter = () => {
         </Grid>
 
         {/* AI Security Pulse */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <MotionCard
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -74,11 +74,11 @@ export const CommandCenter = () => {
               <Stack spacing={2}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography variant="body2" color="text.secondary">Active Threats</Typography>
-                  <Typography variant="body2" fontWeight="bold">0 Detected</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>0 Detected</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography variant="body2" color="text.secondary">Blocked Attempts</Typography>
-                  <Typography variant="body2" fontWeight="bold">{mockSecurityMetrics.blockedAttempts}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{mockSecurityMetrics.blockedAttempts}</Typography>
                 </Box>
               </Stack>
             </CardContent>
@@ -86,7 +86,7 @@ export const CommandCenter = () => {
         </Grid>
 
         {/* Recent Activity */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Typography variant="h5" sx={{ mt: 2, mb: 3 }}>Recent AI Decisions</Typography>
           <Stack spacing={2}>
             {mockTransactions.map((tx, idx) => (
@@ -109,16 +109,16 @@ export const CommandCenter = () => {
                       {tx.status === 'COMPLETED' ? <CheckCircle /> : <Warning />}
                     </Box>
                     <Box>
-                      <Typography variant="body1" fontWeight="600">{tx.recipientName}</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>{tx.recipientName}</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {new Date(tx.date).toLocaleDateString()} • ID: {tx.id}
+                        {new Date(tx.date).toLocaleDateString()} â€¢ ID: {tx.id}
                       </Typography>
                     </Box>
                   </Box>
                   
                   <Box sx={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: 3 }}>
                     <Box>
-                      <Typography variant="body1" fontWeight="700">
+                      <Typography variant="body1" sx={{ fontWeight: 700 }}>
                         ${tx.amount.toLocaleString()}
                       </Typography>
                       <Chip 
@@ -142,3 +142,4 @@ export const CommandCenter = () => {
     </Box>
   );
 };
+

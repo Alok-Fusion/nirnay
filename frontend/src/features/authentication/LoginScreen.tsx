@@ -1,4 +1,4 @@
-import { Box, Typography, TextField, Button } from '@mui/material';
+﻿import { Box, Typography, TextField, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts';
@@ -17,7 +17,7 @@ export const LoginScreen = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4 }}>
-        <Typography variant="h3" color="primary.main" fontWeight="bold">NIRNAY</Typography>
+        <Typography variant="h3" color="primary.main" sx={{ fontWeight: "bold" }}>NIRNAY</Typography>
       </Box>
 
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>Welcome Back</Typography>
@@ -58,3 +58,4 @@ export const LoginScreen = () => {
     </motion.div>
   );
 };
+
