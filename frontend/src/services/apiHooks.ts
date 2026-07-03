@@ -49,6 +49,29 @@ export const useUserBehavior = () => {
   });
 };
 
+export const useUploadStatement = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      const { data } = await api.post('/users/me/behavior/upload-statement', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user-behavior'] });
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['accounts'] });
+      queryClient.invalidateQueries({ queryKey: ['security'] });
+      queryClient.invalidateQueries({ queryKey: ['analytics'] });
+    }
+  });
+};
+
 // --- ACCOUNTS ---
 export const useAccounts = () => {
   return useQuery({

@@ -2,6 +2,7 @@ import { Box, Typography, Grid, Card, CardContent, Divider, Switch, List, ListIt
 import { Security, Block, Fingerprint, NotificationsActive, CheckCircle } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useSecurityMetrics, useRecipients, useUserBehavior } from '../../services/apiHooks';
+import { TwinTrainer } from './TwinTrainer';
 
 const MotionCard = motion(Card);
 
@@ -144,6 +145,11 @@ export const SecurityCenter = () => {
               </List>
             </CardContent>
           </MotionCard>
+        </Grid>
+
+        {/* Digital Twin training upload */}
+        <Grid size={{ xs: 12 }}>
+          <TwinTrainer />
         </Grid>
 
         {/* Trusted & Blocked Recipients */}
