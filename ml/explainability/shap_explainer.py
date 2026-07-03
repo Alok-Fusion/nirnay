@@ -8,6 +8,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+import warnings
+
+# Suppress SHAP lightgbm warning
+warnings.filterwarnings('ignore', message='.*LightGBM binary classifier with TreeExplainer shap values output has changed.*')
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PLOTS_DIR = os.path.join(BASE_DIR, "ml", "evaluation", "plots")
 os.makedirs(PLOTS_DIR, exist_ok=True)
