@@ -75,14 +75,22 @@ class TransactionOrchestrator:
         
         # 4. RULE_ENGINE
         TransactionOrchestrator._update_state(db, transaction, TransactionState.RULE_ENGINE)
-        rule_result, rule_reason = RuleEngine.evaluate(transaction_data, request.amount)
+        rule_result, rule_reason, scam_type = RuleEngine.evaluate(transaction_data, request.amount)
         
         if rule_result == "HARD_BLOCK":
             TransactionOrchestrator._update_state(db, transaction, TransactionState.BLOCKED)
             return TransferDecisionResponse(
                 transaction=TransactionResponse.model_validate(transaction),
-                risk_evaluation={"risk_score": 1.0, "risk_level": "High", "confidence": 1.0, "recommended_action": "BLOCK", "evidence": [{"feature": "Rules", "value": rule_reason, "shap_value": 1.0}]},
-                message=f"Transaction Blocked: {rule_reason}"
+                risk_evaluation={
+                    "risk_score": 1.0,
+                    "risk_level": "High",
+                    "confidence": 1.0,
+                    "recommended_action": "BLOCK",
+                    "scam_type": scam_type,
+                    "reasoning": [rule_reason],
+                    "evidence": [{"feature": "Rule Engine", "value": rule_reason, "shap_value": 1.0}]
+                },
+                message=rule_reason
             )
             
         if rule_result == "SAFE":
@@ -91,8 +99,16 @@ class TransactionOrchestrator:
             
             return TransferDecisionResponse(
                 transaction=TransactionResponse.model_validate(transaction),
-                risk_evaluation={"risk_score": 0.0, "risk_level": "Low", "confidence": 1.0, "recommended_action": "APPROVE_TRANSACTION", "evidence": [{"feature": "Rules", "value": rule_reason, "shap_value": 0.0}]},
-                message=f"Transaction safe: {rule_reason}. Awaiting authentication."
+                risk_evaluation={
+                    "risk_score": 0.0,
+                    "risk_level": "Low",
+                    "confidence": 1.0,
+                    "recommended_action": "APPROVE_TRANSACTION",
+                    "scam_type": None,
+                    "reasoning": [rule_reason],
+                    "evidence": [{"feature": "Rule Engine", "value": rule_reason, "shap_value": 0.0}]
+                },
+                message=rule_reason
             )
             
         # 5. AI_ANALYSIS (if rule_result == "SUSPICIOUS")
@@ -103,6 +119,8 @@ class TransactionOrchestrator:
             "transaction_id": str(transaction.id),
             "raw_transaction_data": transaction_data,
             "raw_customer_id": user_id,
+            "scam_type": scam_type,  # Thread scam context into AI graph
+            "rule_reason": rule_reason,
             "messages": [],
             "current_agent": "ContextIntelligenceAgent",
             "next_agent": "ContextIntelligenceAgent"
@@ -142,6 +160,11 @@ class TransactionOrchestrator:
             "risk_level": ml_risk.get("risk_level", "Unknown"),
             "confidence": ml_risk.get("confidence", 0.0),
             "recommended_action": decision_result.get("final_decision", "Proceed"),
+            "scam_type": scam_type,
+            "reasoning": [
+                rule_reason,
+                decision_result.get("decision_reason", "")
+            ],
             "evidence": evidence_list
         }
         

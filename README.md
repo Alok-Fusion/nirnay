@@ -2,7 +2,7 @@
 
 # 🏦 NIRNAY
 
-### Enterprise AI-Powered Fraud Detection & Banking Decision Platform
+### AI-Powered Financial Decision Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -11,7 +11,9 @@
 [![LangGraph](https://img.shields.io/badge/LangGraph-Agentic-FF6B6B?style=for-the-badge&logo=openai&logoColor=white)](https://langchain.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-> **NIRNAY** (Hindi: *Decision*) is a production-grade, enterprise banking platform with a fully integrated AI decision intelligence pipeline. Every transaction is evaluated through Machine Learning, a Rule Engine, a multi-agent LangGraph system, and a Decision Engine — in real time — before a single rupee moves.
+> **NIRNAY** *(Hindi: Decision)* is an **AI-Powered Financial Decision Intelligence Platform** that transforms traditional fraud detection into autonomous, explainable, and customer-centric decision making.
+>
+> By combining Machine Learning, Rule-Based Banking Policies, Contextual Reasoning, and Conversational AI, it evaluates every transaction before execution — understanding **intent rather than just risk** — and recommends the safest course of action. It protects customers from modern financial scams while preserving a seamless banking experience.
 
 </div>
 

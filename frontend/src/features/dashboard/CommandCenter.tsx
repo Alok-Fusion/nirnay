@@ -22,7 +22,7 @@ export const CommandCenter = () => {
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Typography variant="h3" sx={{ mb: 1 }}>Good morning, Alok.</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-        Your account is secure. NIRNAY AI is actively monitoring your transactions.
+        NIRNAY is actively protecting your account — monitoring every transaction with ML, Rules, and AI before a single rupee moves.
       </Typography>
 
       <Grid container spacing={3}>
@@ -38,7 +38,7 @@ export const CommandCenter = () => {
               <Box>
                 <Typography variant="h5" sx={{ mb: 1, fontWeight: 700 }}>Ready to transfer?</Typography>
                 <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 400 }}>
-                  Send money instantly with military-grade AI protection. Every transaction is analyzed in real-time.
+                  Every transfer is evaluated through Context Intelligence, ML Risk Analysis, Banking Rules, and AI Reasoning — before a single rupee moves.
                 </Typography>
               </Box>
               <Box sx={{ mt: 4 }}>

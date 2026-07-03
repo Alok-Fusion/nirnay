@@ -22,13 +22,13 @@ export const TransferFlow = () => {
   const [loadingStep, setLoadingStep] = useState<string>('Validating');
 
   const loadingSteps = [
-    'Transaction Received',
-    'Validating',
-    'Checking Behaviour',
-    'Running ML',
-    'Applying Rules',
-    'AI Analysis',
-    'Decision Ready'
+    'Understanding your transaction...',
+    'Building your behavioural profile...',
+    'Running ML risk intelligence...',
+    'Applying banking policies...',
+    'AI reasoning in progress...',
+    'Evaluating safest action...',
+    'Decision ready'
   ];
 
   const handleSubmit = async () => {
