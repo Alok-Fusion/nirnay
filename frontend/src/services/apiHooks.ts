@@ -71,6 +71,19 @@ export const useRecipients = () => {
   });
 };
 
+export const useCreateRecipient = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { account_number: string; bank_code: string; name: string; is_trusted?: boolean }) => {
+      const { data } = await api.post('/recipients', payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recipients'] });
+    }
+  });
+};
+
 // --- TRANSACTIONS ---
 export const useTransfer = () => {
   return useMutation({

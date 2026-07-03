@@ -1,7 +1,7 @@
-import { Box, Typography, Button, TextField, MenuItem, CircularProgress, Card } from '@mui/material';
+import { Box, Typography, Button, TextField, MenuItem, CircularProgress, Card, Tabs, Tab, Stack } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { useRecipients, useTransfer, useAuthenticateTransaction } from '../../services/apiHooks';
+import { useRecipients, useTransfer, useAuthenticateTransaction, useCreateRecipient } from '../../services/apiHooks';
 import { useAuth } from '../../contexts';
 import { CheckCircle, ErrorOutlined, Security, Lock } from '@mui/icons-material';
 
@@ -11,9 +11,17 @@ export const TransferFlow = () => {
   const { data: recipients = [], isLoading: loadingRecipients } = useRecipients();
   const transferMutation = useTransfer();
   const authenticateMutation = useAuthenticateTransaction();
+  const createRecipientMutation = useCreateRecipient();
   const { stepUpAuth } = useAuth();
 
+  const [recipientType, setRecipientType] = useState<'saved' | 'new'>('saved');
   const [recipientId, setRecipientId] = useState('');
+  
+  // New recipient fields
+  const [newRecipientName, setNewRecipientName] = useState('');
+  const [newRecipientAccount, setNewRecipientAccount] = useState('');
+  const [newRecipientBankCode, setNewRecipientBankCode] = useState('');
+
   const [amount, setAmount] = useState('');
   const [transferResult, setTransferResult] = useState<any>(null);
   
@@ -32,7 +40,8 @@ export const TransferFlow = () => {
   ];
 
   const handleSubmit = async () => {
-    if (!recipientId || !amount) return;
+    if (recipientType === 'saved' && (!recipientId || !amount)) return;
+    if (recipientType === 'new' && (!newRecipientName || !newRecipientAccount || !newRecipientBankCode || !amount)) return;
     
     setActiveState(1); // Loading state
     let stepIndex = 0;
@@ -46,11 +55,24 @@ export const TransferFlow = () => {
     }, 600);
     
     try {
-      const selectedRecipient = recipients.find((r: any) => r.id === recipientId);
+      let selectedAccountNum = '';
+      if (recipientType === 'saved') {
+        const selectedRecipient = recipients.find((r: any) => r.id === recipientId);
+        selectedAccountNum = selectedRecipient?.account_number || "0000";
+      } else {
+        // Create the new recipient first
+        const newRec = await createRecipientMutation.mutateAsync({
+          name: newRecipientName,
+          account_number: newRecipientAccount,
+          bank_code: newRecipientBankCode,
+          is_trusted: false // Initial transfer to a new recipient starts as untrusted behavior
+        });
+        selectedAccountNum = newRec.account_number;
+      }
       
       // Execute real transfer which invokes the AI orchestrator in the background
       const result = await transferMutation.mutateAsync({
-        recipient_account_number: selectedRecipient?.account_number || "0000",
+        recipient_account_number: selectedAccountNum,
         amount: parseFloat(amount),
         currency: 'USD'
       });
@@ -96,6 +118,9 @@ export const TransferFlow = () => {
   const reset = () => {
     setAmount('');
     setRecipientId('');
+    setNewRecipientName('');
+    setNewRecipientAccount('');
+    setNewRecipientBankCode('');
     setTransferResult(null);
     setActiveState(0);
   };
@@ -115,22 +140,55 @@ export const TransferFlow = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}
+              sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
             >
-              <TextField
-                select
-                label="Select Recipient"
-                fullWidth
-                value={recipientId}
-                onChange={(e) => setRecipientId(e.target.value)}
-                disabled={loadingRecipients}
-              >
-                {recipients.map((rec: any) => (
-                  <MenuItem key={rec.id} value={rec.id}>
-                    {rec.name} ({rec.bank_code})
-                  </MenuItem>
-                ))}
-              </TextField>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 1 }}>
+                <Tabs value={recipientType} onChange={(_, val) => setRecipientType(val)} variant="fullWidth">
+                  <Tab label="Saved Recipient" value="saved" />
+                  <Tab label="New Recipient" value="new" />
+                </Tabs>
+              </Box>
+
+              {recipientType === 'saved' ? (
+                <TextField
+                  select
+                  label="Select Recipient"
+                  fullWidth
+                  value={recipientId}
+                  onChange={(e) => setRecipientId(e.target.value)}
+                  disabled={loadingRecipients}
+                >
+                  {recipients.map((rec: any) => (
+                    <MenuItem key={rec.id} value={rec.id}>
+                      {rec.name} ({rec.bank_code})
+                    </MenuItem>
+                  ))}
+                </TextField>
+              ) : (
+                <Stack spacing={3}>
+                  <TextField
+                    label="Recipient Full Name"
+                    fullWidth
+                    value={newRecipientName}
+                    onChange={(e) => setNewRecipientName(e.target.value)}
+                    placeholder="e.g. Jane Smith"
+                  />
+                  <TextField
+                    label="Account Number"
+                    fullWidth
+                    value={newRecipientAccount}
+                    onChange={(e) => setNewRecipientAccount(e.target.value)}
+                    placeholder="e.g. 1234567890"
+                  />
+                  <TextField
+                    label="Bank Code / Routing Number"
+                    fullWidth
+                    value={newRecipientBankCode}
+                    onChange={(e) => setNewRecipientBankCode(e.target.value)}
+                    placeholder="e.g. BOA001"
+                  />
+                </Stack>
+              )}
 
               <TextField
                 label="Amount (USD)"
@@ -144,7 +202,12 @@ export const TransferFlow = () => {
                 variant="contained" 
                 size="large" 
                 onClick={handleSubmit}
-                disabled={!recipientId || !amount || transferMutation.isPending}
+                disabled={
+                  transferMutation.isPending || 
+                  createRecipientMutation.isPending ||
+                  !amount || 
+                  (recipientType === 'saved' ? !recipientId : (!newRecipientName || !newRecipientAccount || !newRecipientBankCode))
+                }
                 sx={{ py: 1.5, fontSize: '1.1rem' }}
               >
                 Transfer Now
