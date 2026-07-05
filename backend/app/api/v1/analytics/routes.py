@@ -158,7 +158,6 @@ def get_analytics_dashboard(db: Session = Depends(get_db), current_user: User = 
             "total_transactions": len(transactions),
             "total_spent": round(sum(tx.amount for tx in transactions if tx.status == TransactionState.COMPLETED), 2),
             "total_blocked": round(sum(tx.amount for tx in transactions if tx.status == TransactionState.BLOCKED), 2),
-            "active_rules_triggered": sum(1 for tx in transactions if tx.risk_event and len(tx.risk_event.rules_triggered or []) > 0)
+            "active_rules_triggered": sum(1 for tx in transactions if tx.risk_event and len(tx.risk_event.reason_codes or []) > 0)
         }
     }
-
