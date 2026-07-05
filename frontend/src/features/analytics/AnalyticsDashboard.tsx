@@ -115,7 +115,7 @@ export const AnalyticsDashboard = () => {
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 4, fontWeight: 700 }}>Cash Flow Overview (Last 6 Months)</Typography>
               <Box sx={{ width: '100%', height: 320 }}>
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="99%" height={320}>
                   <BarChart data={cashFlowData}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} />
@@ -136,7 +136,7 @@ export const AnalyticsDashboard = () => {
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 4, fontWeight: 700 }}>AI Risk Interventions</Typography>
               <Box sx={{ width: '100%', height: 320 }}>
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="99%" height={320}>
                   <LineChart data={interventionsData}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} />
@@ -157,7 +157,7 @@ export const AnalyticsDashboard = () => {
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 700 }}>Spending Category Breakdown</Typography>
               <Box sx={{ width: '100%', height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="99%" height={280}>
                   <PieChart>
                     <Pie
                       data={categoryData}
@@ -187,7 +187,7 @@ export const AnalyticsDashboard = () => {
             <CardContent sx={{ p: 4 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 700 }}>Digital Twin Temporal Heuristics</Typography>
               <Box sx={{ width: '100%', height: 280 }}>
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="99%" height={280}>
                   <AreaChart data={hourlyData}>
                     <defs>
                       <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
