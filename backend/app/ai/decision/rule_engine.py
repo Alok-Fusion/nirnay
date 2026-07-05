@@ -96,6 +96,13 @@ class RuleEngine:
 
         scam_type = SCAM_TYPE_NONE
 
+        # Check transaction daily limit exceeded
+        if features.get("limit_exceeded", 0.0) == 1.0:
+            limit = features.get("daily_limit", 1000.0)
+            spent = features.get("daily_spent_sum", 0.0)
+            reason = f"Your daily transfer limit of ${limit:,.0f} has been reached (Spent today: ${spent:,.2f}). Proceeding requires security review."
+            return ("SUSPICIOUS", reason, SCAM_TYPE_NONE)
+
         # Investment scam indicators
         if any(kw in recipient_name for kw in INVESTMENT_KEYWORDS):
             triggered_factors.append("Recipient name matches known investment scam patterns")

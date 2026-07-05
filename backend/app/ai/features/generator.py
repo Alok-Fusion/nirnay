@@ -39,6 +39,22 @@ class FeatureGenerator:
         # All historical transactions for this account
         history_query = db.query(Transaction).filter(Transaction.account_id == account_id)
         
+        from backend.app.models.transaction import TransactionState
+        daily_spent_sum = db.query(func.sum(Transaction.amount)).filter(
+            Transaction.account_id == account_id,
+            Transaction.status == TransactionState.COMPLETED,
+            Transaction.created_at >= one_day_ago
+        ).scalar() or 0.0
+        
+        trust_level = profile.trust_level if profile else "NEW"
+        limit_map = {
+            "NEW": 1000.0,
+            "LEARNING": 5000.0,
+            "ESTABLISHED": 25000.0,
+            "TRUSTED": 1000000.0
+        }
+        daily_limit = limit_map.get(trust_level, 1000.0)
+        
         # Compute counts and averages via SQL
         # Fallback to 0 if None
         thirty_days_stats = db.query(
@@ -93,6 +109,9 @@ class FeatureGenerator:
         
         # Compile all features
         features = {
+            "daily_spent_sum": float(daily_spent_sum),
+            "daily_limit": float(daily_limit),
+            "limit_exceeded": 1.0 if (daily_spent_sum + current_amount) > daily_limit else 0.0,
             "average_transaction": float(profile.avg_transaction_amount) if profile else avg_tx_last_30_days,
             "average_daily_transaction": float(profile.average_daily_transactions) if profile else (avg_tx_last_30_days / 30.0 if tx_last_30_days > 0 else 0.0),
             "average_weekly_transaction": float(profile.avg_transaction_amount / 4.0) if profile else (avg_tx_last_30_days / 4.0 if tx_last_30_days > 0 else 0.0),
