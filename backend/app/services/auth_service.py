@@ -19,6 +19,25 @@ class AuthService:
         
         user = user_repo.create(db, obj_in=user_data)
         
+        # Create a starting bank account for the customer
+        import random
+        from backend.app.models.account import Account
+        
+        acc_number = f"ACC-{random.randint(100000, 999999)}"
+        # Ensure unique
+        while db.query(Account).filter(Account.account_number == acc_number).first() is not None:
+            acc_number = f"ACC-{random.randint(100000, 999999)}"
+            
+        account = Account(
+            user_id=user.id,
+            account_number=acc_number,
+            balance=150000.0,
+            currency="USD",
+            status="Active"
+        )
+        db.add(account)
+        db.flush()
+        
         # Initialize BehaviorProfile
         from backend.app.models.behavior_profile import BehaviorProfile
         profile = BehaviorProfile(
@@ -29,14 +48,14 @@ class AuthService:
             trusted_recipients=[],
             known_devices=[],
             known_locations=[],
-            average_balance=0.0,
+            average_balance=150000.0,
             historical_risk=0.0,
             trust_score=50,
             trust_level="NEW"
         )
         db.add(profile)
         db.commit()
-        logger.info(f"User registered successfully with BehaviorProfile: {user.email}")
+        logger.info(f"User registered successfully with Account {acc_number} and BehaviorProfile: {user.email}")
         return user
 
     @staticmethod
