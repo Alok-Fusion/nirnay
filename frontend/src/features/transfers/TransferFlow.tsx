@@ -1,7 +1,7 @@
-import { Box, Typography, Button, TextField, MenuItem, CircularProgress, Card, Tabs, Tab, Stack } from '@mui/material';
+import { Box, Typography, Button, TextField, MenuItem, CircularProgress, Card, Tabs, Tab } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { useRecipients, useTransfer, useAuthenticateTransaction, useCreateRecipient } from '../../services/apiHooks';
+import { useRecipients, useTransfer, useAuthenticateTransaction, useCreateRecipient, useChat } from '../../services/apiHooks';
 import { useAuth } from '../../contexts';
 import { CheckCircle, ErrorOutlined, Security, Lock } from '@mui/icons-material';
 
@@ -12,6 +12,7 @@ export const TransferFlow = () => {
   const transferMutation = useTransfer();
   const authenticateMutation = useAuthenticateTransaction();
   const createRecipientMutation = useCreateRecipient();
+  const chatMutation = useChat();
   const { stepUpAuth } = useAuth();
 
   const [recipientType, setRecipientType] = useState<'saved' | 'new'>('saved');
@@ -25,9 +26,14 @@ export const TransferFlow = () => {
   const [amount, setAmount] = useState('');
   const [transferResult, setTransferResult] = useState<any>(null);
   
-  // 0: Form, 1: Loading, 2: Success, 3: Verification/Blocked
+  // 0: Form, 1: Loading, 2: Success, 3: Verification/Blocked/Chat
   const [activeState, setActiveState] = useState<0 | 1 | 2 | 3>(0);
   const [loadingStep, setLoadingStep] = useState<string>('Validating');
+  
+  // Chat state
+  const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const [userMsg, setUserMsg] = useState('');
+  const [isChatActive, setIsChatActive] = useState(false);
 
   const loadingSteps = [
     'Understanding your transaction...',
@@ -65,7 +71,7 @@ export const TransferFlow = () => {
           name: newRecipientName,
           account_number: newRecipientAccount,
           bank_code: newRecipientBankCode,
-          is_trusted: false // Initial transfer to a new recipient starts as untrusted behavior
+          is_trusted: false
         });
         selectedAccountNum = newRec.account_number;
       }
@@ -88,8 +94,13 @@ export const TransferFlow = () => {
       setTimeout(() => {
         if (action === "BLOCK") {
           setActiveState(3); // Blocked
+        } else if (action === "REQUEST_MORE_INFORMATION" || action === "ESCALATE_TO_HUMAN") {
+          setIsChatActive(true);
+          setChatMessages([{ role: 'assistant', content: result.message }]);
+          setActiveState(3);
         } else {
-          setActiveState(3); // Both APPROVED and REQUEST_MORE_INFORMATION require auth
+          setIsChatActive(false);
+          setActiveState(3); // Direct Approve -> step-up authentication
         }
       }, 500);
       
@@ -98,6 +109,43 @@ export const TransferFlow = () => {
       console.error("Transfer failed", error);
       setTransferResult({ message: "Transaction Failed due to a system error.", risk_evaluation: { recommended_action: "BLOCK" } });
       setActiveState(3);
+    }
+  };
+
+  const handleSendChat = async () => {
+    if (!userMsg.trim()) return;
+    const currentMsg = userMsg;
+    setUserMsg('');
+    
+    // Append user message to log
+    setChatMessages((prev) => [...prev, { role: 'user', content: currentMsg }]);
+    
+    try {
+      const response = await chatMutation.mutateAsync({
+        message: currentMsg,
+        transactionId: String(transferResult.transaction.id)
+      });
+      
+      // Append AI response to log
+      setChatMessages((prev) => [...prev, { role: 'assistant', content: response.message }]);
+      
+      if (response.status === 'COMPLETED') {
+        const finalDecision = response.decision;
+        setIsChatActive(false); // Close chat
+        
+        // Update transfer result message and decision action
+        setTransferResult((prev: any) => ({
+          ...prev,
+          message: response.message,
+          risk_evaluation: {
+            ...prev?.risk_evaluation,
+            recommended_action: finalDecision === 'APPROVE_TRANSACTION' ? 'APPROVE_TRANSACTION' : 'BLOCK'
+          }
+        }));
+      }
+    } catch (error) {
+      console.error("Chat message failed", error);
+      setChatMessages((prev) => [...prev, { role: 'assistant', content: "An error occurred. I couldn't reach the security engine. Please try again." }]);
     }
   };
 
@@ -122,6 +170,8 @@ export const TransferFlow = () => {
     setNewRecipientAccount('');
     setNewRecipientBankCode('');
     setTransferResult(null);
+    setChatMessages([]);
+    setIsChatActive(false);
     setActiveState(0);
   };
 
@@ -165,7 +215,7 @@ export const TransferFlow = () => {
                   ))}
                 </TextField>
               ) : (
-                <Stack spacing={3}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                   <TextField
                     label="Recipient Full Name"
                     fullWidth
@@ -187,7 +237,7 @@ export const TransferFlow = () => {
                     onChange={(e) => setNewRecipientBankCode(e.target.value)}
                     placeholder="e.g. BOA001"
                   />
-                </Stack>
+                </Box>
               )}
 
               <TextField
@@ -254,7 +304,7 @@ export const TransferFlow = () => {
               key="verification"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              sx={{ textAlign: 'center' }}
+              sx={{ textAlign: 'center', width: '100%' }}
             >
               {transferResult?.risk_evaluation?.recommended_action === "BLOCK" ? (
                 <>
@@ -267,7 +317,68 @@ export const TransferFlow = () => {
                     Return
                   </Button>
                 </>
+              ) : isChatActive ? (
+                /* AI Coercion Conversation Guard */
+                <Box sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column', height: 400 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pb: 1.5, borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+                    <Security color="warning" />
+                    <Box>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>NIRNAY Fraud Coercion Guard</Typography>
+                      <Typography variant="caption" color="text.secondary">AI Contextual Assessment session</Typography>
+                    </Box>
+                  </Box>
+                  
+                  {/* Messages log */}
+                  <Box sx={{ flexGrow: 1, overflowY: 'auto', my: 2, display: 'flex', flexDirection: 'column', gap: 1.5, pr: 1 }}>
+                    {chatMessages.map((msg, index) => (
+                      <Box 
+                        key={index}
+                        sx={{
+                          maxWidth: '85%',
+                          alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                          bgcolor: msg.role === 'user' ? 'primary.main' : 'grey.100',
+                          color: msg.role === 'user' ? 'white' : 'text.primary',
+                          p: 1.5,
+                          borderRadius: msg.role === 'user' ? '16px 16px 2px 16px' : '16px 16px 16px 2px',
+                          fontSize: '0.9rem',
+                          lineHeight: 1.4
+                        }}
+                      >
+                        {msg.content}
+                      </Box>
+                    ))}
+                    {chatMutation.isPending && (
+                      <Box sx={{ alignSelf: 'flex-start', bgcolor: 'grey.100', p: 1.5, borderRadius: '16px 16px 16px 2px', display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                        <CircularProgress size={16} color="inherit" />
+                        <Typography variant="caption" color="text.secondary">AI is analyzing...</Typography>
+                      </Box>
+                    )}
+                  </Box>
+
+                  {/* Input field */}
+                  <Box sx={{ display: 'flex', gap: 1, pt: 1.5, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                    <TextField 
+                      placeholder="Type your response..."
+                      fullWidth
+                      size="small"
+                      value={userMsg}
+                      onChange={(e) => setUserMsg(e.target.value)}
+                      disabled={chatMutation.isPending}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleSendChat();
+                      }}
+                    />
+                    <Button 
+                      variant="contained" 
+                      onClick={handleSendChat}
+                      disabled={chatMutation.isPending || !userMsg.trim()}
+                    >
+                      Send
+                    </Button>
+                  </Box>
+                </Box>
               ) : (
+                /* Step-up password authentication */
                 <>
                   <Security color="warning" sx={{ fontSize: 80, mb: 2 }} />
                   <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>Verification Required</Typography>

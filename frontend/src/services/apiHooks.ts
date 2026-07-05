@@ -26,6 +26,13 @@ export const useLogin = () => {
       return { tokenData, userData };
     }
   });
+};export const useRegister = () => {
+  return useMutation({
+    mutationFn: async (userData: any) => {
+      const { data } = await api.post('/auth/register', userData);
+      return data;
+    }
+  });
 };
 
 export const useUser = () => {
@@ -206,6 +213,59 @@ export const useAdminStats = () => {
     queryFn: async () => {
       const { data } = await api.get('/admin/system-stats');
       return data;
+    }
+  });
+};
+
+export const useCustomers = () => {
+  return useQuery({
+    queryKey: ['admin-customers'],
+    queryFn: async () => {
+      const { data } = await api.get('/admin/customers');
+      return data;
+    }
+  });
+};
+
+export const useSuspendCustomer = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (customerId: number) => {
+      const { data } = await api.post(`/admin/customers/${customerId}/suspend`);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-customers'] });
+    }
+  });
+};
+
+export const useActivateCustomer = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (customerId: number) => {
+      const { data } = await api.post(`/admin/customers/${customerId}/activate`);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-customers'] });
+    }
+  });
+};
+
+export const useOverrideBehavior = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { customerId: number; trust_score: number; trust_level: string }) => {
+      const { data } = await api.post(`/admin/customers/${payload.customerId}/override-behavior`, {
+        trust_score: payload.trust_score,
+        trust_level: payload.trust_level
+      });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-customers'] });
+      queryClient.invalidateQueries({ queryKey: ['user-behavior'] });
     }
   });
 };
