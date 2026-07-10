@@ -31,7 +31,7 @@ app = FastAPI(
 app.add_exception_handler(Exception, custom_exception_handler)
 
 # Middleware (Order matters - added bottom-up for Starlette)
-app.add_middleware(RateLimitMiddleware, max_requests=100, window_seconds=60)
+app.add_middleware(RateLimitMiddleware, max_requests=10000, window_seconds=60)
 app.add_middleware(RequestContextMiddleware)
 
 if settings.BACKEND_CORS_ORIGINS:
