@@ -52,6 +52,7 @@ api.interceptors.response.use(
         console.warn("Session expired. Logging out.");
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
         window.location.href = '/auth/login';
         return Promise.reject(refreshError);
       }
