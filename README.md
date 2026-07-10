@@ -31,6 +31,12 @@ Unlike demo applications that fake AI with hardcoded responses, NIRNAY is a **re
 - 💳 **Real Payee Flow** — Supports transferring to new beneficiaries, automatically registering and persisting their details.
 - 📊 **No Manual Refreshes** — React Query cache invalidation propagates every backend change and statement import to the UI automatically.
 - 🏛️ **No Monolithic Logic** — Every concern (Orchestration, ML, Rules, AI Agents, Decision, Audit) has its own layer.
+- 🆕 **Newly Implemented Features:**
+  - 💬 **Interactive AI Coercion Guard:** Suspicious transfers undergo a live screening conversation managed by LangGraph to verify the customer's intent and detect coercive pressure in real-time.
+  - 👤 **Onboarding & Account Seeding:** Full customer signup and login workflows with automatic bank account creation and balance seeding ($150,000 starting check balance).
+  - ⚙️ **Enforced Daily Transaction Limits:** Daily transfer limits based on Trust Level (NEW: `$1,000`, LEARNING: `$5,000`, ESTABLISHED: `$25,000`), flagging exceeding transfers as suspicious and triggering the Coercion Guard.
+  - 🛡️ **Admin Control Directory:** Administrative dashboard metrics, risk intervention feeds, and customer control actions (Suspend / Activate accounts, override trust scores and levels).
+  - 🎮 **Gamified Scam & Phishing Drills:** An interactive sandbox simulator inside the Security Center allowing users to practice spotting social engineering tactics (IRS penalties, refund overpayment scams).
 
 ---
 
