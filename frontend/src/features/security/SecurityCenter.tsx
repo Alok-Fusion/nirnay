@@ -3,6 +3,7 @@ import { Security, Block, Fingerprint, NotificationsActive, CheckCircle } from '
 import { motion } from 'framer-motion';
 import { useSecurityMetrics, useRecipients, useUserBehavior } from '../../services/apiHooks';
 import { TwinTrainer } from './TwinTrainer';
+import { ScamDrillSimulator } from './ScamDrillSimulator';
 
 const MotionCard = motion(Card);
 
@@ -150,6 +151,11 @@ export const SecurityCenter = () => {
         {/* Digital Twin training upload */}
         <Grid size={{ xs: 12 }}>
           <TwinTrainer />
+        </Grid>
+
+        {/* Scam Drill Simulator */}
+        <Grid size={{ xs: 12 }}>
+          <ScamDrillSimulator />
         </Grid>
 
         {/* Trusted & Blocked Recipients */}
