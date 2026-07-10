@@ -45,9 +45,19 @@ def verify_system():
     print("\nStarting NIRNAY Platform...")
     print("-" * 60)
     
+    # Resolve venv python path if it exists
+    python_exe = sys.executable
+    if os.name == "nt":  # Windows
+        venv_python = os.path.join("venv", "Scripts", "python.exe")
+    else:  # Unix/macOS
+        venv_python = os.path.join("venv", "bin", "python")
+    
+    if os.path.exists(venv_python):
+        python_exe = venv_python
+        
     # Start Backend
     backend_process = subprocess.Popen(
-        [sys.executable, "-m", "uvicorn", "backend.app.main:app", "--reload", "--port", "8000"],
+        [python_exe, "-m", "uvicorn", "backend.app.main:app", "--reload", "--port", "8000"],
         stdout=sys.stdout,
         stderr=sys.stderr
     )
