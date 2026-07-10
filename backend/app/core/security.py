@@ -38,3 +38,12 @@ def create_refresh_token(
     to_encode = {"exp": expire, "sub": str(subject), "type": "refresh"}
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
+
+def decode_token(token: str) -> Any:
+    from types import SimpleNamespace
+    payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+    return SimpleNamespace(
+        type=payload.get("type"),
+        sub=payload.get("sub"),
+        exp=payload.get("exp")
+    )

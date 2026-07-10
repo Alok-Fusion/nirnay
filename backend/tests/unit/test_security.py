@@ -16,3 +16,10 @@ def test_create_access_token():
     assert payload['sub'] == subject
     assert payload['type'] == 'access'
 
+def test_decode_token():
+    from backend.app.core.security import decode_token
+    token = create_access_token(subject='456')
+    payload = decode_token(token)
+    assert payload.sub == '456'
+    assert payload.type == 'access'
+
